@@ -14,18 +14,22 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 # Define a route and a view function
-@app.route("/")
+@app.route("/", methods=["GET"])
 def get_api_health():
     return "API is working"
+
 
 # Register the route blueprints
 app.register_blueprint(users.bp)
 app.register_blueprint(bicycles.bp)
 app.register_blueprint(reports.bp)
 
+
 def main():
     app.run(debug=True)
+
 
 # Run the app
 if __name__ == "__main__":
@@ -37,7 +41,7 @@ if __name__ == "__main__":
 # ID: uuid
 # name: str
 # email: str
-# hashed_password: str 
+# hashed_password: str
 
 # Bicycles
 # ID: uuid
@@ -47,7 +51,7 @@ if __name__ == "__main__":
 # user_id: uuid
 # description: str
 # last_seen: {lat: int, lon: int}
-# (picture)  
+# (picture)
 
 # Reports
 # ID: uuid
@@ -58,6 +62,6 @@ if __name__ == "__main__":
 
 
 # Geolocation
-# ID, name, user_id, description, (picture)  
+# ID, name, user_id, description, (picture)
 
 # location: {lat: , lon: }
