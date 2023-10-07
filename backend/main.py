@@ -6,7 +6,6 @@ from routes import users, bicycles, reports
 from models import *
 from flask_cors import CORS
 
-app = Flask(__name__)
 
 app = Flask(__name__)
 
