@@ -4,10 +4,14 @@ from db import db, get_db_uri
 from routes import users, bicycles, reports
 
 from models import *
+from flask_cors import CORS
+
+app = Flask(__name__)
 
 app = Flask(__name__)
 
 # configure the database, relative to the app instance folder
+CORS(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = get_db_uri()
 # initialize the app with the extension
 db.init_app(app)
