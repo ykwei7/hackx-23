@@ -1,2 +1,3 @@
 [submodule "bike-tracker"]
+	path = bike-tracker
 	url = https://github.com/CFSY/bike-tracker.git
