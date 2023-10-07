@@ -1,11 +1,37 @@
+"use client";
+
 export const metadata = {
   title: "Sign Up",
   description: "Page description",
 };
 
 import Link from "next/link";
+import { signup } from "@/app/api/hello/route";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
+  const handleSignup = (e: Event): any => {
+    e.preventDefault();
+    signup({
+      name: name,
+      email: email,
+      password: password,
+    })
+      .then((res) => {
+        console.log(res);
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="max-w-sm mx-auto">
       <form>
@@ -20,6 +46,8 @@ export default function SignUpForm() {
             <input
               id="name"
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="form-input w-full text-gray-800"
               placeholder="Enter your name"
               required
@@ -37,6 +65,8 @@ export default function SignUpForm() {
             <input
               id="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="form-input w-full text-gray-800"
               placeholder="Enter your email address"
               required
@@ -54,6 +84,8 @@ export default function SignUpForm() {
             <input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="form-input w-full text-gray-800"
               placeholder="Enter your password"
               required
@@ -62,7 +94,10 @@ export default function SignUpForm() {
         </div>
         <div className="flex flex-wrap -mx-3 mt-6">
           <div className="w-full px-3">
-            <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+            <button
+              className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+              onClick={handleSignup}
+            >
               Sign up
             </button>
           </div>

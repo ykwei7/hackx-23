@@ -1,6 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { login } from "@/app/api/hello/route";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const handleLogin = (e: Event): any => {
+    e.preventDefault();
+    login({
+      email: email,
+      password: password,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="max-w-sm mx-auto">
       <form>
@@ -15,6 +37,8 @@ export default function SignInForm() {
             <input
               id="email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="form-input w-full text-gray-800"
               placeholder="Enter your email address"
               required
@@ -40,6 +64,8 @@ export default function SignInForm() {
             <input
               id="password"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="form-input w-full text-gray-800"
               placeholder="Enter your password"
               required
@@ -48,7 +74,10 @@ export default function SignInForm() {
         </div>
         <div className="flex flex-wrap -mx-3 mt-6">
           <div className="w-full px-3">
-            <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">
+            <button
+              className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+              onClick={handleLogin}
+            >
               Sign in
             </button>
           </div>
