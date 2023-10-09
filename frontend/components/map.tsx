@@ -67,10 +67,8 @@ const Map = () => {
     controlUI.style.borderRadius = "3px";
     controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
     controlUI.style.cursor = "pointer";
-    controlUI.style.marginBottom = "22px";
     controlUI.style.textAlign = "center";
     controlUI.style.width = "100%";
-    controlUI.style.padding = "8px 0";
     controlUI.addEventListener("click", handleGetLocationClick);
     controlDiv.appendChild(controlUI);
 
@@ -102,18 +100,6 @@ const Map = () => {
         gap: "20px",
       }}
     >
-      {/* search component  */}
-      <Autocomplete
-        onLoad={(autocomplete) => {
-          // console.log("Autocomplete loaded:", autocomplete);
-          autocompleteRef.current = autocomplete;
-        }}
-        onPlaceChanged={handlePlaceChanged}
-        options={{ fields: ["address_components", "geometry", "name"] }}
-      >
-        <input type="text" placeholder="Search for a location" />
-      </Autocomplete>
-
       {/* map component  */}
       <GoogleMap
         zoom={currentLocation || selectedPlace ? 18 : 12}
@@ -125,6 +111,18 @@ const Map = () => {
         {selectedPlace && <Marker position={searchLngLat} />}
         {currentLocation && <Marker position={currentLocation} />}
       </GoogleMap>
+
+      {/* search component  */}
+      <Autocomplete
+        onLoad={(autocomplete) => {
+          // console.log("Autocomplete loaded:", autocomplete);
+          autocompleteRef.current = autocomplete;
+        }}
+        onPlaceChanged={handlePlaceChanged}
+        options={{ fields: ["address_components", "geometry", "name"] }}
+      >
+        <input type="text" placeholder="Search for a location" />
+      </Autocomplete>
     </div>
   );
 };

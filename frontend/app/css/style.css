@@ -57,10 +57,26 @@
   align-self: flex-start;
   font-size: 1.1rem;
   font-weight: 600;
+  color: black;
+}
+
+.banner-title button {
+  transform: translateY(-1.5px);
 }
 
 .banner-desc {
   margin-left: 0.5rem;
   color: darkslategray;
   font-size: 0.9rem;
+}
+
+.map-bike-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid lightgray;
 }

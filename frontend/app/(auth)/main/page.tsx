@@ -26,9 +26,9 @@ export default function MainPage() {
     profile: <ProfilePage />,
   };
   return (
-    <div>
+    <div className="h-full">
       <TopNavBar />
-      <div>{viewsMapping[currView]}</div>
+      <div className="h-full">{viewsMapping[currView]}</div>
       <BottomNavBar views={views} setView={setView} />
     </div>
   );

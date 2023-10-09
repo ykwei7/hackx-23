@@ -1,15 +1,33 @@
+import "@/app/css/style.css";
 import Map from "@/components/map";
+import PedalBike from "@mui/icons-material/PedalBike";
 
 export const MapPage: React.FC = () => {
   return (
-    <div>
-      <div className="py-8 px-4 text-center">
-        <h1 className="text-3xl font-semibold">Your Location Map</h1>
-        <p className="text-gray-500 mt-4">
-          This map shows your current location.
-        </p>
+    <div className="pt-4 pb-2 px-4 h-full">
+      <div>
+        <Map />
       </div>
-      <Map />
+      <div className="map-bike-container">
+        <div className="bike-status-container">
+          <div className="icon">
+            <PedalBike style={{ fontSize: "2rem" }} />
+          </div>
+          <div>Bishan</div>
+        </div>
+        <div className="bike-status-container">
+          <div className="icon">
+            <PedalBike style={{ fontSize: "2rem" }} />
+          </div>
+          <div>Bishan</div>
+        </div>
+        <div className="bike-status-container">
+          <div className="icon">
+            <PedalBike style={{ fontSize: "2rem" }} />
+          </div>
+          <div>Woodlands</div>
+        </div>
+      </div>
     </div>
   );
 };
