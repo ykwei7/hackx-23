@@ -21,7 +21,7 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   background-color: whitesmoke;
   padding: 0.5rem 0.5rem;
-  min-height: 18vh;
+  min-height: 10vh;
 }
 
 .all-bikes-container {
@@ -79,4 +79,20 @@
   margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid lightgray;
+}
+
+.circular-progress-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  border-radius: 1rem;
+  background-color: whitesmoke;
+  margin-bottom: 1rem;
+}
+
+.circular-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

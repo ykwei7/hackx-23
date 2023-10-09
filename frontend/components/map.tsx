@@ -45,6 +45,7 @@ const Map = () => {
           setSelectedPlace(null);
           setSearchLngLat(null);
           setCurrentLocation({ lat: latitude, lng: longitude });
+          console.log({ lat: latitude, lng: longitude });
           initialLocation.current = { lat: latitude, lng: longitude };
         },
         (error) => {
@@ -78,16 +79,16 @@ const Map = () => {
 
     handleGetLocationClick();
 
-    const marker = new google.maps.Marker({
-      position: {
-        lat: initialLocation.current["lat"] - 5,
-        lng: initialLocation.current["long"] - 5,
-      },
-      map,
-      title: "Hello World!",
-      icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+    const bikeIcon = {
+      url: "https://cdn-icons-png.flaticon.com/512/3198/3198344.png", // Replace with the URL of your custom image
+      scaledSize: new google.maps.Size(40, 40), // Set the desired width and height
+    };
+
+    var bishanParkMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(1.3634, 103.8436),
+      map: map,
+      icon: bikeIcon,
     });
-    handleGetLocationClick();
   };
 
   return (
