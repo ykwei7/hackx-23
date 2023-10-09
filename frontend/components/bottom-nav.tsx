@@ -6,7 +6,10 @@ import ReportIcon from "@mui/icons-material/Report";
 
 export const BottomNavBar: React.FC = ({ views, setView }) => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300">
+    <nav
+      className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300"
+      style={{ boxShadow: "0px -5px 5px rgba(0, 0, 0, 0.2)" }}
+    >
       {/* Add your navigation items here */}
       <ul className="flex justify-center py-2">
         <li

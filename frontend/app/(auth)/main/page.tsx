@@ -7,6 +7,7 @@ import { BicylesPage } from "@/components/main/bicycles-page";
 import { HomePage } from "@/components/main/home-page";
 import { ReportPage } from "@/components/main/report-page";
 import { ProfilePage } from "@/components/main/profile-page";
+import { TopNavBar } from "@/components/top-nav";
 
 export default function MainPage() {
   const [currView, setView] = useState("home");
@@ -26,6 +27,7 @@ export default function MainPage() {
   };
   return (
     <div>
+      <TopNavBar />
       <div>{viewsMapping[currView]}</div>
       <BottomNavBar views={views} setView={setView} />
     </div>

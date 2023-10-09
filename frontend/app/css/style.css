@@ -1,18 +1,66 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
 /* Additional styles */
-@import 'additional-styles/utility-patterns.css';
-@import 'additional-styles/range-slider.css';
-@import 'additional-styles/toggle-switch.css';
-@import 'additional-styles/theme.css';
+@import "additional-styles/utility-patterns.css";
+@import "additional-styles/range-slider.css";
+@import "additional-styles/toggle-switch.css";
+@import "additional-styles/theme.css";
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
 
 /* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
 @layer utilities {
-    .rtl {
-        direction: rtl;
-    }
+  .rtl {
+    direction: rtl;
+  }
 }
 
+.banner-box {
+  display: flex;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: whitesmoke;
+  padding: 0.5rem 0.5rem;
+  min-height: 18vh;
+}
+
+.all-bikes-container {
+  display: flex;
+  margin-left: 0.5rem;
+  gap: 2rem;
+  align-self: flex-start;
+}
+
+.bike-status-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-bottom: 3px solid green;
+}
+
+.banner-box.main-banner {
+  min-height: 5vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.banner-box.side-banner {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.banner-box:hover {
+  filter: brightness(80%);
+}
+
+.banner-title {
+  align-self: flex-start;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.banner-desc {
+  margin-left: 0.5rem;
+  color: darkslategray;
+  font-size: 0.9rem;
+}
