@@ -10,16 +10,20 @@ export default function SignUp() {
     <section className="relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Hero content */}
-        <div className="pt-24 pb-24 md:pt-40 md:pb-20">
+        <div className="pt-10 pb-4 md:pt-40 md:pb-20">
           {/* Section header */}
-          <div className="text-center pb-12 md:pb-16">
+          <div className="text-center pb-0 md:pb-16">
             <h1
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4"
               data-aos="zoom-y-out"
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                Sign Up
-              </span>
+              <div className="mx-auto">
+                <img
+                  className="mx-auto"
+                  src="/assets/htx-bike-logo.png"
+                  alt="Main Logo"
+                />
+              </div>
             </h1>
             <div className="max-w-3xl mx-auto">
               <div

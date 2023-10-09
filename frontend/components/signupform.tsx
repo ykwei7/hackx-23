@@ -95,7 +95,7 @@ export default function SignUpForm() {
         <div className="flex flex-wrap -mx-3 mt-6">
           <div className="w-full px-3">
             <button
-              className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
+              className="btn text-white bg-black hover:bg-gray-700 w-full"
               onClick={handleSignup}
             >
               Sign up
@@ -103,7 +103,7 @@ export default function SignUpForm() {
           </div>
         </div>
       </form>
-      <div className="flex items-center my-6">
+      <div className="flex items-center my-5">
         <div
           className="border-t border-gray-300 grow mr-3"
           aria-hidden="true"
@@ -115,9 +115,9 @@ export default function SignUpForm() {
         ></div>
       </div>
       <form>
-        <div className="flex flex-wrap -mx-3 mb-3">
+        <div className="flex flex-wrap -mx-3 mb-2">
           <div className="w-full px-3">
-            <button className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
+            {/* <button className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
               <svg
                 className="w-4 h-4 fill-current text-white opacity-75 shrink-0 mx-4"
                 viewBox="0 0 16 16"
@@ -128,11 +128,20 @@ export default function SignUpForm() {
               <span className="flex-auto pl-16 pr-8 -ml-16">
                 Continue with GitHub
               </span>
-            </button>
+            </button> */}
+
+            <div className="mx-auto">
+              <img
+                className="mx-auto"
+                src="/assets/singpass-2.png"
+                alt="singpass"
+                width="200rem"
+              />
+            </div>
           </div>
         </div>
       </form>
-      <div className="text-gray-600 text-center mt-6">
+      <div className="text-gray-600 text-center mt-2">
         Already have an account?{" "}
         <Link
           href="/"

@@ -5,7 +5,7 @@ export default function Landing() {
     <section className="relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Hero content */}
-        <div className="pt-12 pb-8 md:pt-40 md:pb-20">
+        <div className="pt-10 pb-8 md:pt-40 md:pb-20">
           {/* Section header */}
           <div className="text-center pb-4 md:pb-16">
             <h1
