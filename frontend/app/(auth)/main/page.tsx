@@ -28,7 +28,7 @@ export default function MainPage() {
   return (
     <div className="h-full">
       <TopNavBar />
-      <div className="h-full">{viewsMapping[currView]}</div>
+      <div className="pt-20 pb-10">{viewsMapping[currView]}</div>
       <BottomNavBar views={views} setView={setView} />
     </div>
   );
