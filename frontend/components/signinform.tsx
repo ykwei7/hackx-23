@@ -10,7 +10,7 @@ export default function SignInForm() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e: Event): any => {
+  const handleLogin = (e: any): any => {
     e.preventDefault();
     login({
       email: email,
@@ -18,6 +18,7 @@ export default function SignInForm() {
     })
       .then((res) => {
         console.log(res);
+        router.push("/main");
       })
       .catch((err) => {
         console.log(err);

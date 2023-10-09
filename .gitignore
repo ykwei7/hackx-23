@@ -1,3 +1,4 @@
 be_venv
 __pycache__
 .env
+.env.local
