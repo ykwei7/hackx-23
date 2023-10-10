@@ -66,7 +66,7 @@ export const HomePage: React.FC = () => {
         </div>
       </div> */}
       <div>
-        <div className="banner-box side-banner rounded-md ">
+        <div className="banner-box side-banner rounded-md">
           <div className="banner-title">
             <IconButton>
               <FlagIcon />
