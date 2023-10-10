@@ -38,6 +38,41 @@ def add_bicycle():
     return jsonify({"message": "Bicycle added successfully"}), 201
 
 
+@bp.route("/", methods=["GET"])
+def get_all_bicycles():
+    # if limit query param is not present or is of non-int type, default of 10 is used
+    num_bikes = request.args.get("limit", default=50, type=int)
+    if num_bikes <= 0:
+        return jsonify({"error": "limit query parameter should be positive"}), 400
+
+    userId = request.args.get("user_id", default="", type=str)
+    try:
+        if not userId:
+            # return jsonify({"error": "userId should be specified"}), 400
+            bicycles = Bicycle.query.limit(num_bikes).all()
+        else:
+            kwargs = {'user_id': userId}
+            bicycles = Bicycle.query.filter_by(**kwargs).limit(num_bikes).all()
+
+        bicycles_data = [
+            {
+                "id": b.id,
+                "user_id": b.user_id,
+                "name": b.name,
+                "brand": b.brand,
+                "model": b.model,
+                "description": b.description,
+                "last_seen_lat": b.last_seen_lat,
+                "last_seen_lon": b.last_seen_lon,
+                "is_stolen": b.is_stolen,
+            }
+            for b in bicycles
+        ]
+        return jsonify(bicycles_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
+
+
 # Define a route to delete a bicycle by ID
 @bp.route("/<string:bicycle_id>", methods=["DELETE"])
 def delete_bicycle(bicycle_id):
@@ -67,6 +102,7 @@ def update_bicycle(bicycle_id):
     bicycle.description = data.get("description", bicycle.description)
     bicycle.last_seen_lat = data.get("last_seen_lat", bicycle.last_seen_lat)
     bicycle.last_seen_lon = data.get("last_seen_lon", bicycle.last_seen_lon)
+    bicycle.is_stolen = data.get("is_stolen", bicycle.is_stolen)
 
     db.session.commit()
 

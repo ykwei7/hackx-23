@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, ForeignKey, Text, DateTime, Float
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, Text, DateTime, Float
 from sqlalchemy.orm import relationship
 
 from db import db
@@ -35,7 +35,10 @@ class Bicycle(db.Model):
     last_seen_lat = Column(Float, nullable=True)
     last_seen_lon = Column(Float, nullable=True)
 
-    # You can add a field for the picture (if needed)
+    # To be used to detect whether to send notification to user.
+    # if device sends payload isStolen=true, send only when db is_stolen=False.
+    # if device sends payload isStolen=false, send only when db is_stolen=True.
+    is_stolen = Column(Boolean(), default=False)
 
     def __repr__(self) -> str:
         return f"Bicycle(id={self.id!r}, name={self.name!r}, brand={self.brand!r})"
@@ -55,3 +58,6 @@ class Report(db.Model):
 
     # Define a many-to-one relationship with bicycles
     bicycle = relationship("Bicycle", back_populates="reports")
+
+    # status: "ongoing", "resolved"
+    status = Column(String(36), default="ongoing")

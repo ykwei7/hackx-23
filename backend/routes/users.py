@@ -15,6 +15,8 @@ def signup():
     email = data.get("email")
     password = data.get("password")
 
+    # TODO: add a deviceId field
+
     # Check if a user with the same email already exists
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
