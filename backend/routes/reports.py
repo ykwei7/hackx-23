@@ -1,8 +1,17 @@
 from flask import Blueprint, request, jsonify
 from models import Report, User, Bicycle
 from db import db
+from geopy.geocoders import Nominatim
+import datetime
 
 bp = Blueprint("reports", __name__, url_prefix="/reports")
+
+
+def decode_coord(lat, long):
+    geolocator = Nominatim(user_agent="MyApp")
+    location = geolocator.reverse([lat, long])
+    address = location.raw["address"]
+    return f"{address['suburb']}, {address['road']}"
 
 
 # Define a route to add a new report
@@ -12,6 +21,10 @@ def add_report():
     user_id = data.get("user_id")
     bike_id = data.get("bike_id")
     description = data.get("description")
+    lat = data.get("lat")
+    long = data.get("long")
+
+    reported_time = datetime.now()
 
     # Check if the user and bicycle exist
     user = User.query.get(user_id)
@@ -21,7 +34,14 @@ def add_report():
         return jsonify({"message": "User or bicycle not found"}), 404
 
     # Create a new report
-    new_report = Report(user_id=user_id, bike_id=bike_id, description=description)
+    new_report = Report(
+        user_id=user_id,
+        bike_id=bike_id,
+        description=description,
+        lat=lat,
+        long=long,
+        reported_time=reported_time,
+    )
 
     db.session.add(new_report)
     db.session.commit()
@@ -57,3 +77,30 @@ def delete_report(report_id):
     db.session.commit()
 
     return jsonify({"message": "Report deleted successfully"}), 200
+
+
+@bp.route("/", methods=["GET"])
+def get_all_reports():
+    try:
+        reports = Report.query.all()
+
+        # Convert reports to a list of dictionaries
+        reports_data = [
+            {
+                "id": report.id,
+                "user_id": report.user_id,
+                "bike_id": report.bike_id,
+                "reported_time": report.reported_time.isoformat()
+                if report.reported_time
+                else None,
+                "description": report.description,
+                "lat": report.lat,
+                "long": report.long,
+                "address": decode_coord(report.lat, report.long),
+            }
+            for report in reports
+        ]
+
+        return jsonify(reports_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

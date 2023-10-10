@@ -36,7 +36,6 @@ def main():
 
 # Run the app
 if __name__ == "__main__":
-    print("compile successful!")
     main()
 
 
@@ -53,15 +52,17 @@ if __name__ == "__main__":
 # model: str
 # user_id: uuid
 # description: str
-# last_seen: {lat: int, lon: int}
+# lat: float
+# lon: float
 # (picture)
 
 # Reports
 # ID: uuid
 # user_id: uuid
-# bike_id: uuid
+# bike_id: uuid = None
 # reported_time: timestamp
 # description: str
+# is_active: [ongoing (1), closed (0)]
 
 
 # Geolocation

@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Integer, ForeignKey, Text, DateTime
+from sqlalchemy import Column, String, Integer, ForeignKey, Text, DateTime, Float
 from sqlalchemy.orm import relationship
 
 from db import db
@@ -32,8 +32,8 @@ class Bicycle(db.Model):
     reports = relationship("Report", back_populates="bicycle")
 
     # Add fields for latitude and longitude
-    last_seen_lat = Column(Integer, nullable=True)
-    last_seen_lon = Column(Integer, nullable=True)
+    last_seen_lat = Column(Float, nullable=True)
+    last_seen_lon = Column(Float, nullable=True)
 
     # You can add a field for the picture (if needed)
 
@@ -47,6 +47,8 @@ class Report(db.Model):
     bike_id = Column(String(36), ForeignKey("bicycle.id"), nullable=False)
     reported_time = Column(DateTime(timezone=True))
     description = Column(Text())
+    lat = Column(Float)
+    long = Column(Float)
 
     # Define a many-to-one relationship with users
     user = relationship("User", back_populates="reports")

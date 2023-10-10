@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models import User, Bicycle
+from models import User, Bicycle, Report
+from routes.reports import decode_coord
 from db import db
 import hashlib
 
@@ -92,6 +93,40 @@ def get_user_bicycles(user_id):
             bicycles_list.append(bicycle_info)
 
         return jsonify({"bicycles": bicycles_list}), 200
+
+    except Exception as e:
+        return jsonify({"message": "An error occurred", "error": str(e)}), 500
+
+
+@bp.route("/<string:user_id>/reports", methods=["GET"])
+def get_user_reports(user_id):
+    try:
+        # Query the database to retrieve the user by user_id
+        user = User.query.get(user_id)
+
+        # Check if the user exists
+        if not user:
+            return jsonify({"message": "User not found"}), 404
+
+        # Retrieve all bicycles owned by the user
+        reports = Report.query.filter_by(user_id=user_id).all()
+
+        # Create a list to store bicycle information
+        reports_list = []
+
+        # Iterate through the bicycles and add their details to the list
+        for report in reports:
+            reports_info = {
+                "id": report.id,
+                "reported_time": report.reported_time,
+                "description": report.description,
+                "lat": report.lat,
+                "long": report.long,
+                "location": decode_coord(report.lat, report.long),
+            }
+            reports_list.append(reports_info)
+
+        return jsonify({"reports": reports_list}), 200
 
     except Exception as e:
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
