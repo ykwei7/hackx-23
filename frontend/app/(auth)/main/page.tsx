@@ -6,6 +6,7 @@ import { BottomNavBar } from "@/components/bottom-nav";
 import { BicylesPage } from "@/components/main/bicycles-page";
 import { HomePage } from "@/components/main/home-page";
 import { ReportPage } from "@/components/main/report-page";
+import { ReportFormPage } from "@/components/main/report-form-page";
 import { ProfilePage } from "@/components/main/profile-page";
 import { TopNavBar } from "@/components/top-nav";
 
@@ -17,13 +18,15 @@ export default function MainPage() {
     home: "home",
     report: "report",
     profile: "profile",
+    reportForm: "reportForm",
   };
   const viewsMapping = {
     map: <MapPage />,
     bicycles: <BicylesPage />,
     home: <HomePage />,
-    report: <ReportPage />,
+    report: <ReportPage views={views} setView={setView} />,
     profile: <ProfilePage />,
+    reportForm: <ReportFormPage views={views} setView={setView} />,
   };
   return (
     <div className="h-full">
