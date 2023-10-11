@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseAPI = "http://localhost:5000/";
+const baseAPI = "http://localhost:1234/";
 
 export async function get_all_reports(): Promise<any> {
   try {
