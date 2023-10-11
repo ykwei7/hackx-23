@@ -3,6 +3,7 @@ import "@/app/css/style.css";
 import { getUserBicycles } from "@/app/api/bicycles/route";
 import CircularProgress from "@mui/material/CircularProgress";
 import Bike from "@/components/bike";
+import AddBicycle from "@/components/add-bicycle";
 
 type Bicycle = {
   brand: string;
@@ -34,25 +35,28 @@ export function BicyclesPage() {
   }, [userId]);
 
   return (
-    <div className="bicycles-list">
-      {loading ? (
-        <div className="flex justify-center items-start pt-4">
-          <CircularProgress sx={{ color: "grey" }} />
-        </div>
-      ) : (
-        <div className="pb-8">
-          {bicycles.map((bike) => (
-            <Bike
-              key={bike.id}
-              name={bike.name}
-              brand={bike.brand}
-              model={bike.model}
-              lat={bike.last_seen_lat}
-              long={bike.last_seen_lon}
-            />
-          ))}
-        </div>
-      )}
+    <div>
+      <div className="bicycles-list">
+        {loading ? (
+          <div className="flex justify-center items-start pt-4">
+            <CircularProgress sx={{ color: "grey" }} />
+          </div>
+        ) : (
+          <div className="pb-8">
+            {bicycles.map((bike) => (
+              <Bike
+                key={bike.id}
+                name={bike.name}
+                brand={bike.brand}
+                model={bike.model}
+                lat={bike.last_seen_lat}
+                long={bike.last_seen_lon}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <AddBicycle />
     </div>
   );
 }
