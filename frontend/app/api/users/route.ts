@@ -27,3 +27,14 @@ export async function login(user: any): Promise<any> {
     throw error;
   }
 }
+
+export async function get_user_info(user_id: string): Promise<any> {
+  try {
+    const response = await axios.get(`${baseAPI}users/${user_id}`);
+    return response.data;
+  } catch (error) {
+    // Handle error, e.g., log it or return an error message
+    console.error("Error logging in:", error);
+    throw error;
+  }
+}
