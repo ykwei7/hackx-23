@@ -98,11 +98,14 @@ const Map = ({ currBike, bikes = [] }) => {
     };
 
     bikes.forEach((bike) => {
-      if (!bike.lat || bike.long) {
+      if (!bike.last_seen_lat || bike.last_seen_lon) {
         return;
       }
       var bikeMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(bike.lat, bike.long),
+        position: new google.maps.LatLng(
+          bike.last_seen_lat,
+          bike.last_seen_lon
+        ),
         map: map,
         icon: bikeIcon,
       });
