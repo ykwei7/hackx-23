@@ -6,7 +6,7 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 
-const Map = ({ currBike, bikes = [] }) => {
+const Map = ({ currBike, bikes }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -91,22 +91,11 @@ const Map = ({ currBike, bikes = [] }) => {
     );
 
     handleGetLocationClick();
+  };
 
-    const bikeIcon = {
-      url: "https://cdn-icons-png.flaticon.com/512/3198/3198344.png", // Replace with the URL of your custom image
-      scaledSize: new google.maps.Size(40, 40), // Set the desired width and height
-    };
-
-    bikes.forEach((bike) => {
-      if (!bike.lat || bike.long) {
-        return;
-      }
-      var bikeMarker = new google.maps.Marker({
-        position: new google.maps.LatLng(bike.lat, bike.long),
-        map: map,
-        icon: bikeIcon,
-      });
-    });
+  const bikeIcon = {
+    url: "https://cdn-icons-png.flaticon.com/512/3198/3198344.png", // Replace with the URL of your custom image
+    scaledSize: new google.maps.Size(40, 40), // Set the desired width and height
   };
 
   return (
@@ -129,6 +118,15 @@ const Map = ({ currBike, bikes = [] }) => {
       >
         {selectedPlace && <Marker position={searchLngLat} />}
         {currentLocation && <Marker position={currentLocation} />}
+        {bikes.map((bike) => (
+          <Marker
+            position={{
+              lat: bike.last_seen_lat,
+              lng: bike.last_seen_lon,
+            }}
+            icon={bikeIcon}
+          />
+        ))}
       </GoogleMap>
 
       {/* search component  */}

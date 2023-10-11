@@ -86,17 +86,20 @@ def delete_report(report_id):
 
 @bp.route("/", methods=["GET"])
 def get_all_reports():
-    # if limit query param is not present or is of non-int type, default of 10 is used
     num_reports = request.args.get("limit", default=10, type=int)
     if num_reports <= 0:
         return jsonify({"error": "limit query parameter should be positive"}), 400
     try:
-        # sort by reported_time desc
         reports = (
-            Report.query.order_by(Report.reported_time.desc()).limit(num_reports).all()
+            Report.query.join(
+                Bicycle, Report.bike_id == Bicycle.id
+            )  # Join Report and Bike tables
+            .join(User, Report.user_id == User.id)  # Join Report and User tables
+            .order_by(Report.reported_time.desc())
+            .limit(num_reports)
+            .all()
         )
 
-        # Convert reports to a list of dictionaries
         reports_data = [
             {
                 "id": report.id,
@@ -110,6 +113,9 @@ def get_all_reports():
                 "long": report.long,
                 "address": decode_coord(report.lat, report.long),
                 "status": report.status,
+                "bike_brand": report.bicycle.brand,  # Access the bike's brand
+                "bike_model": report.bicycle.model,  # Access the bike's model
+                "username": report.user.name,  # Access the user's phone number
             }
             for report in reports
         ]

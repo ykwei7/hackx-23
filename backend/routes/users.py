@@ -32,6 +32,25 @@ def signup():
     return jsonify({"message": "User registered successfully"}), 201
 
 
+# Route to fetch a user by user_id
+@bp.route("/<string:user_id>", methods=["GET"])
+def get_user_by_id(user_id):
+    user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+
+    # Define a function to serialize the user to JSON
+    def user_to_dict(user):
+        return {
+            "user_id": user.id,
+            "name": user.name,
+            "email": user.email,
+        }
+
+    return jsonify(user_to_dict(user)), 200
+
+
 def generate_password_hash(password):
     # Encode the password as bytes
     password_bytes = password.encode("utf-8")

@@ -5,7 +5,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import FlagIcon from "@mui/icons-material/Flag";
 import FeedIcon from "@mui/icons-material/Feed";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CircularWithValueLabel from "../circular-progress";
 import { useEffect, useState } from "react";
 import { get_all_bicycles, get_all_reports } from "@/app/api/main/route";
 
@@ -15,13 +14,15 @@ export const HomePage: React.FC = ({ views, setView }) => {
   const user_id = sessionStorage.getItem("user_id");
   useEffect(() => {
     get_all_reports().then((res) => {
-      setReports(res);
+      if (res.length) {
+        setReports([res[0]]);
+      }
     });
     get_all_bicycles(user_id).then((res) => setBikes(res.bicycles));
   }, []);
 
   return (
-    <div className="d-flex flex-col justify-center items-center pt-8 pb-12 pl-4 pr-4 space-y-6">
+    <div className="d-flex flex-col justify-center items-center min-h-screen pb-12 pl-4 pr-4 space-y-6">
       <div>
         <div className="circular-progress-container">
           <div className="banner-title ml-2">
@@ -32,6 +33,14 @@ export const HomePage: React.FC = ({ views, setView }) => {
           </div>
           {reports.map((report) => (
             <div key={report.id}>
+              <p className="incident-container">
+                <span className="incident-title">Bike:</span>
+                <span className="incident-desc">
+                  {report.bike_brand && report.bike_model
+                    ? `${report.bike_brand}, ${report.bike_model}`
+                    : "-"}
+                </span>
+              </p>
               <p className="incident-container">
                 <span className="incident-title">Last Seen At:</span>
                 <span className="incident-desc">{report.address ?? "-"}</span>
@@ -48,7 +57,11 @@ export const HomePage: React.FC = ({ views, setView }) => {
                   {report.description ?? "-"}
                 </span>
               </p>
-              <hr />
+              <div className="incident-container leading-4 mt-2">
+                <span className="text-gray-500">
+                  If found, please contact 9123 4567 to reach the owner.
+                </span>
+              </div>
             </div>
           ))}
         </div>
