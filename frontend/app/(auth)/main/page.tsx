@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { MapPage } from "@/components/main/map-page";
 import { BottomNavBar } from "@/components/bottom-nav";
-import { BicylesPage } from "@/components/main/bicycles-page";
+import { BicyclesPage } from "@/components/main/bicycles-page";
 import { HomePage } from "@/components/main/home-page";
 import { ReportPage } from "@/components/main/report-page";
 import { ProfilePage } from "@/components/main/profile-page";
@@ -20,7 +20,7 @@ export default function MainPage() {
   };
   const viewsMapping = {
     map: <MapPage />,
-    bicycles: <BicylesPage />,
+    bicycles: <BicyclesPage />,
     home: <HomePage />,
     report: <ReportPage />,
     profile: <ProfilePage />,

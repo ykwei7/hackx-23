@@ -5,6 +5,7 @@ from routes import users, bicycles, reports
 
 from models import *
 from flask_cors import CORS
+
 # from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -16,7 +17,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = get_db_uri()
 db.init_app(app)
 # with app.app_context():
 #     db.create_all()
-# migrate = Migrate(app, db)    
+# migrate = Migrate(app, db)
 
 
 # Define a route and a view function
@@ -32,7 +33,7 @@ app.register_blueprint(reports.bp)
 
 
 def main():
-    app.run(debug=True)
+    app.run(debug=True, port=1234)
 
 
 # Run the app

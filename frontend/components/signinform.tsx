@@ -18,12 +18,15 @@ export default function SignInForm() {
     })
       .then((res) => {
         console.log(res);
+        // Store the user_id in the local storage
+        localStorage.setItem("user_id", res.data.user_id);
         router.push("/main");
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   return (
     <div className="max-w-sm mx-auto">
       <form>
