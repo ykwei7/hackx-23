@@ -1,12 +1,31 @@
-# Free Tailwind landing page template
+# Frontend deployment
+
+Prerequisites:
+
+- Install Azure CLI [here](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+
+Open Powershell:
+
+1. `cd .\frontend\`
+2. `az login`
+3. Run the following command with the environment variables manually populated:
+
+```powershell
+az containerapp up `
+  --resource-group htx --name gang-of-four-frontend `
+  --source . `
+  --env-vars NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="<api-key>"
+```
+
+## Free Tailwind landing page template
 
 ![Simple TailwindCSS template preview](https://user-images.githubusercontent.com/2683512/231426766-72ae7bcd-618b-4a3e-87cd-b46a464bde61.png)
 
-**Simple Light** is a free landing page template built on top of **TailwindCSS** and fully coded in **React** / **Next.js**. Simple light is designed to provide all the basic components a developer need to create a landing page for SaaS products, online services, and more. 
+**Simple Light** is a free landing page template built on top of **TailwindCSS** and fully coded in **React** / **Next.js**. Simple light is designed to provide all the basic components a developer need to create a landing page for SaaS products, online services, and more.
 Use it for whatever you want, and be sure to reach us out on Twitter if you build anything cool/useful with it.
 Created and maintained with ❤️ by [Cruip.com](https://cruip.com/).
 
-*Version 1.3.3 built with Tailwind CSS and React + Vite is available [here](https://github.com/cruip/tailwind-landing-page-template/releases/tag/1.3.3).*
+_Version 1.3.3 built with Tailwind CSS and React + Vite is available [here](https://github.com/cruip/tailwind-landing-page-template/releases/tag/1.3.3)._
 
 ## Live demo
 
@@ -61,8 +80,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-
 ### Support notes
+
 This template has been developed with the App Router (`app`) and React Server Components. If you’re unfamiliar with these beta features, you can find more information about them on the Next.js beta documentation page. So, please note that any request dealing with React (e.g. extra features, customisations, et cetera) is to be considered out of the support scope.
 
 For more information about what support covers, please see our (FAQs)[https://cruip.com/faq/].

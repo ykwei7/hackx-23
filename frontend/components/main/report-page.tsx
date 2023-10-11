@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import FeedIcon from "@mui/icons-material/Feed";
 import ReportIcon from "@mui/icons-material/Report";
-import { get_all_reports } from "@/app/api/main/route";
+import { get_all_reports } from "@/app/api/main/main";
 import ReportForm from "@/components/report-form";
 import { Report } from "@/components/main/types";
 
@@ -77,8 +77,7 @@ function ReportPage(): React.FC {
               return (
                 <div
                   key={report.id}
-                  className="banner-box side-banner rounded-md gap-1 mt-4 mx-1 mb-2"
-                >
+                  className="banner-box side-banner rounded-md gap-1 mt-4 mx-1 mb-2">
                   <p className="incident-container">
                     <span className="incident-title">Bike:</span>
                     <span className="incident-desc">

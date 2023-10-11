@@ -2,10 +2,10 @@ import "@/app/css/style.css";
 import Map from "@/components/map";
 import PedalBike from "@mui/icons-material/PedalBike";
 import { useState, useEffect } from "react";
-import { get_all_bicycles } from "@/app/api/main/route";
+import { get_all_bicycles } from "@/app/api/main/main";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSearchParams } from "next/navigation";
-import { getBicycleLocation } from "@/app/api/bicycles/route";
+import { getBicycleLocation } from "@/app/api/bicycles/bicycles";
 
 export const MapPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -15,8 +15,10 @@ export const MapPage: React.FC = () => {
   const [currLat, setCurrLat] = useState(null);
   const [currLong, setCurrLong] = useState(null);
   const [currAddress, setCurrAddress] = useState(null);
-  const user_id = localStorage.getItem("user_id");
-
+  var user_id = "";
+  if (typeof window != "undefined") {
+    user_id = localStorage.getItem("user_id") || "";
+  }
   useEffect(() => {
     get_all_bicycles(user_id).then((res) => {
       setBikes(res.bicycles);
@@ -92,8 +94,7 @@ export const MapPage: React.FC = () => {
               className={`bike-status-container ${
                 bike.is_stolen ? "is_stolen" : "is_safe"
               }`}
-              onClick={() => setCurrBike(bike)}
-            >
+              onClick={() => setCurrBike(bike)}>
               <div className="icon">
                 <PedalBike style={{ fontSize: "2rem" }} />
               </div>

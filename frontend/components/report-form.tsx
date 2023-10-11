@@ -5,8 +5,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import { getUserBicycles } from "@/app/api/bicycles/route";
-import { addReport } from "@/app/api/main/route";
+import { getUserBicycles } from "@/app/api/bicycles/bicycles";
+import { addReport } from "@/app/api/main/main";
 import SuccessDialog from "@/components/ui/success-dialog";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -149,24 +149,21 @@ export default function ReportForm({
             margin: "auto",
             borderRadius: "10px",
           },
-        }}
-      >
+        }}>
         <DialogTitle sx={{ marginBottom: "0.5rem" }}>Report Form</DialogTitle>
         <DialogContent className="overflow-hidden">
           <FormControl
             fullWidth
             required
             className="report-field"
-            sx={{ marginTop: "0.5rem" }}
-          >
+            sx={{ marginTop: "0.5rem" }}>
             <InputLabel id="bicycle-name-select-label">Bicycle Name</InputLabel>
             <Select
               labelId="bicycle-name-select-label"
               id="bicycle-name-select"
               value={bicycleName}
               label="Bicycle Name"
-              onChange={(e) => setBicycleName(e.target.value)}
-            >
+              onChange={(e) => setBicycleName(e.target.value)}>
               {bicycles.map((bicycle) => (
                 <MenuItem key={bicycle.id} value={bicycle.name}>
                   {bicycle.name}
@@ -232,8 +229,7 @@ export default function ReportForm({
                 bicycleName: false,
                 description: false,
               });
-            }}
-          >
+            }}>
             Close
           </Button>
           <Button onClick={handleSubmit}>Submit</Button>

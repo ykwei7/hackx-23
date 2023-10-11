@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { login } from "@/app/api/users/route";
+import { login } from "@/app/api/users/users";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +17,9 @@ export default function SignInForm() {
       password: password,
     })
       .then((res) => {
-        localStorage.setItem("user_id", res.data.user_id);
+        if (typeof window != "undefined") {
+          localStorage.setItem("user_id", res.data.user_id);
+        }
         router.push("/main");
       })
       .catch((err) => {
@@ -33,8 +35,7 @@ export default function SignInForm() {
           <div className="w-full px-3">
             <label
               className="block text-gray-800 text-sm font-medium mb-1 text-left"
-              htmlFor="email"
-            >
+              htmlFor="email">
               Email
             </label>
             <input
@@ -53,14 +54,12 @@ export default function SignInForm() {
             <div className="flex justify-between">
               <label
                 className="block text-gray-800 text-sm font-medium mb-1"
-                htmlFor="password"
-              >
+                htmlFor="password">
                 Password
               </label>
               <Link
                 href="/reset-password"
-                className="text-sm font-medium text-gray-600 hover:underline"
-              >
+                className="text-sm font-medium text-gray-600 hover:underline">
                 Having trouble signing in?
               </Link>
             </div>
@@ -79,8 +78,7 @@ export default function SignInForm() {
           <div className="w-full px-3">
             <button
               className="btn text-white bg-black hover:bg-gray-700 w-full"
-              onClick={handleLogin}
-            >
+              onClick={handleLogin}>
               Sign in
             </button>
           </div>
@@ -89,13 +87,11 @@ export default function SignInForm() {
       <div className="flex items-center my-6">
         <div
           className="border-t border-gray-300 grow mr-3"
-          aria-hidden="true"
-        ></div>
+          aria-hidden="true"></div>
         <div className="text-gray-600 italic">Or</div>
         <div
           className="border-t border-gray-300 grow ml-3"
-          aria-hidden="true"
-        ></div>
+          aria-hidden="true"></div>
       </div>
       <form>
         <div className="flex flex-wrap -mx-3 mb-3">
@@ -128,8 +124,7 @@ export default function SignInForm() {
         Don't you have an account?{" "}
         <Link
           href="/signup"
-          className="text-black hover:underline transition duration-150 ease-in-out"
-        >
+          className="text-black hover:underline transition duration-150 ease-in-out">
           Sign up
         </Link>
       </div>

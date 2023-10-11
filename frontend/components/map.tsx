@@ -6,7 +6,7 @@ import {
   Autocomplete,
   Circle,
 } from "@react-google-maps/api";
-import { getBicycleLocation } from "@/app/api/bicycles/route";
+import { getBicycleLocation } from "@/app/api/bicycles/bicycles";
 
 const libraries = ["places"];
 
@@ -117,16 +117,14 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
         justifyContent: "center",
         alignItems: "center",
         gap: "20px",
-      }}
-    >
+      }}>
       {/* map component  */}
       <GoogleMap
         zoom={currentLocation || selectedPlace ? 18 : 12}
         center={currentLocation || searchLngLat}
         mapContainerClassName="map"
         mapContainerStyle={{ width: "80%", height: "20rem", margin: "auto" }}
-        onLoad={onMapLoad}
-      >
+        onLoad={onMapLoad}>
         {selectedPlace && <Marker position={searchLngLat} />}
         {currentLocation && <Marker position={currentLocation} />}
         {bikes.map((bike) => (
@@ -160,8 +158,7 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
           autocompleteRef.current = autocomplete;
         }}
         onPlaceChanged={handlePlaceChanged}
-        options={{ fields: ["address_components", "geometry", "name"] }}
-      >
+        options={{ fields: ["address_components", "geometry", "name"] }}>
         <input type="text" placeholder="Search for a location" />
       </Autocomplete>
     </div>

@@ -1,4 +1,4 @@
-import { get_user_info } from "@/app/api/users/route";
+import { get_user_info } from "@/app/api/users/users";
 import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
@@ -69,8 +69,7 @@ export const ProfilePage = () => {
       <div className="w-full px-3 py-8">
         <button
           className="btn text-white bg-black hover:bg-gray-700 w-full"
-          onClick={logout}
-        >
+          onClick={logout}>
           Logout
         </button>
       </div>
