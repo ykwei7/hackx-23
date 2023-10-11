@@ -6,7 +6,7 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 
-const Map = () => {
+const Map = ({ currBike, bikes = [] }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -19,6 +19,20 @@ const Map = () => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
+
+  useEffect(() => {
+    if (
+      currBike == null ||
+      currBike.last_seen_lat == null ||
+      currBike.last_seen_lon == null
+    ) {
+      return;
+    }
+    setCurrentLocation({
+      lat: currBike.last_seen_lat,
+      lng: currBike.last_seen_lon,
+    });
+  }, [currBike]);
 
   if (!isLoaded) return <div>Loading....</div>;
 
@@ -45,7 +59,6 @@ const Map = () => {
           setSelectedPlace(null);
           setSearchLngLat(null);
           setCurrentLocation({ lat: latitude, lng: longitude });
-          console.log({ lat: latitude, lng: longitude });
           initialLocation.current = { lat: latitude, lng: longitude };
         },
         (error) => {
@@ -53,7 +66,7 @@ const Map = () => {
         }
       );
     } else {
-      // console.log("Geolocation is not supported by this browser.");
+      console.log("Geolocation is not supported by this browser.");
     }
   };
 
@@ -84,10 +97,15 @@ const Map = () => {
       scaledSize: new google.maps.Size(40, 40), // Set the desired width and height
     };
 
-    var bishanParkMarker = new google.maps.Marker({
-      position: new google.maps.LatLng(1.3634, 103.8436),
-      map: map,
-      icon: bikeIcon,
+    bikes.forEach((bike) => {
+      if (!bike.lat || bike.long) {
+        return;
+      }
+      var bikeMarker = new google.maps.Marker({
+        position: new google.maps.LatLng(bike.lat, bike.long),
+        map: map,
+        icon: bikeIcon,
+      });
     });
   };
 
@@ -116,7 +134,6 @@ const Map = () => {
       {/* search component  */}
       <Autocomplete
         onLoad={(autocomplete) => {
-          // console.log("Autocomplete loaded:", autocomplete);
           autocompleteRef.current = autocomplete;
         }}
         onPlaceChanged={handlePlaceChanged}

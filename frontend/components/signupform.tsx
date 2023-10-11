@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 import Link from "next/link";
-import { signup } from "@/app/api/hello/route";
+import { signup } from "@/app/api/users/route";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
