@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { login } from "@/app/api/hello/route";
+import { login } from "@/app/api/users/route";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -17,9 +17,7 @@ export default function SignInForm() {
       password: password,
     })
       .then((res) => {
-        console.log(res);
-        // Store the user_id in the local storage
-        localStorage.setItem("user_id", res.data.user_id);
+        sessionStorage.setItem("user_id", res.data.user_id);
         router.push("/main");
       })
       .catch((err) => {

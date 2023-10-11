@@ -18,7 +18,7 @@
 
 .banner-box {
   display: flex;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   background-color: whitesmoke;
   padding: 0.5rem 0.5rem;
   min-height: 10vh;
@@ -29,6 +29,7 @@
   margin-left: 0.5rem;
   gap: 2rem;
   align-self: flex-start;
+  flex-wrap: wrap;
 }
 
 .bike-status-container {
@@ -72,8 +73,9 @@
 
 .map-bike-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
   gap: 2rem;
   height: 100%;
   margin-top: 2rem;
@@ -89,10 +91,27 @@
   border-radius: 1rem;
   background-color: whitesmoke;
   margin-bottom: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .circular-progress {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.incident-title {
+  font-weight: 500;
+}
+
+.incident-container {
+  color: black;
+  margin-left: 1.25rem;
+  font-size: 0.9rem;
+  justify-content: center;
+}
+
+.incident-desc {
+  color: darkslategray;
+  margin-left: 0.25rem;
 }

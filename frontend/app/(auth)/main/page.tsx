@@ -21,7 +21,7 @@ export default function MainPage() {
   const viewsMapping = {
     map: <MapPage />,
     bicycles: <BicyclesPage />,
-    home: <HomePage />,
+    home: <HomePage setView={setView} views={views} />,
     report: <ReportPage />,
     profile: <ProfilePage />,
   };
