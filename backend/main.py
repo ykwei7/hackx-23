@@ -56,7 +56,9 @@ if __name__ == "__main__":
 # description: str
 # lat: float
 # lon: float
+# TODO:
 # (picture)
+# device_id
 
 # Reports
 # ID: uuid
