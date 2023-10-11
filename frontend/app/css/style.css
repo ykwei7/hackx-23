@@ -108,10 +108,10 @@
 .report-button {
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed !important;
   bottom: 5rem;
   right: 1.5rem;
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 
 .back-button {
