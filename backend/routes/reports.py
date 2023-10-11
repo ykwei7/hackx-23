@@ -8,6 +8,8 @@ bp = Blueprint("reports", __name__, url_prefix="/reports")
 
 
 def decode_coord(lat, long):
+    if lat is None or long is None:
+        return None
     geolocator = Nominatim(user_agent="MyApp")
     location = geolocator.reverse([lat, long])
     address = location.raw["address"]
@@ -90,7 +92,9 @@ def get_all_reports():
         return jsonify({"error": "limit query parameter should be positive"}), 400
     try:
         # sort by reported_time desc
-        reports = Report.query.order_by(Report.reported_time.desc()).limit(num_reports).all()
+        reports = (
+            Report.query.order_by(Report.reported_time.desc()).limit(num_reports).all()
+        )
 
         # Convert reports to a list of dictionaries
         reports_data = [
