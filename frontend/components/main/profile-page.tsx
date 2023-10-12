@@ -4,7 +4,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 
 export const ProfilePage = () => {
-  const user_id = localStorage.getItem("user_id");
+  var user_id = "";
+  if (typeof window != "undefined") {
+    user_id = localStorage.getItem("user_id");
+  }
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [phoneNum, setPhoneNum] = useState(null);

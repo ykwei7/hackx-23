@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f package-lock.json ]; then npm ci --legacy-peer-deps; \
   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
@@ -27,6 +27,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+# Use az container update --args , manually passing in the gmaps api key
 RUN NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=PLACEHOLDER_NEXT_PUBLIC_GOOGLE_MAPS_API_KEY yarn build
 
 # If using npm comment out above and use below instead
@@ -62,6 +63,8 @@ ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
-ENTRYPOINT [ "/app/entrypoint.sh" ]
+COPY --chown=nextjs:nodejs entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT [ "/bin/sh", "/usr/local/bin/entrypoint.sh" ]
 
 CMD ["node", "server.js"]
