@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from models import Bicycle, User
 from db import db
 
+from pywebpush import WebPusher, WebPushException
+
+
 bp = Blueprint("bicycles", __name__, url_prefix="/bicycles")
 
 
@@ -102,8 +105,29 @@ def update_bicycle(bicycle_id):
     bicycle.description = data.get("description", bicycle.description)
     bicycle.last_seen_lat = data.get("last_seen_lat", bicycle.last_seen_lat)
     bicycle.last_seen_lon = data.get("last_seen_lon", bicycle.last_seen_lon)
+    
+    isStolenPrev = bicycle.is_stolen
     bicycle.is_stolen = data.get("is_stolen", bicycle.is_stolen)
 
     db.session.commit()
+
+    # Check if there is a state change
+    # false->true and true-> false
+    if isStolenPrev is not bicycle.is_stolen:
+        userRow = User.query.filter_by(id=bicycle.user_id).with_entities(User.subscription_info).first()
+        subscription_info = userRow.subscription_info
+
+        if subscription_info:
+            try:
+                if bicycle.is_stolen:
+                    data = "Bicycle is stolen"
+                else:
+                    data = "Bicycle is not stolen"
+
+                wb = WebPusher(subscription_info)
+                wb.send(data)
+            
+            except WebPushException as e:
+                print("Web push failed: {}", repr(e))
 
     return jsonify({"message": "Bicycle updated successfully"}), 200
