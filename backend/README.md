@@ -22,8 +22,8 @@ Open Powershell:
 3. Run the following command with the environment variables manually populated:
 
 ```powershell
-az containerapp up \
-  --resource-group htx --name gang-of-four-backend \
-  --ingress external --target-port 50505 --source . \
+az containerapp up `
+  --resource-group htx --name gang-of-four-backend `
+  --ingress external --target-port 50505 --source . `
   --env-vars user="<user>" password="<password>" host="<host>" port="<port>" database="<database>"
 ```

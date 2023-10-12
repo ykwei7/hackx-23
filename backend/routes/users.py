@@ -4,6 +4,8 @@ from routes.reports import decode_coord
 from db import db
 import hashlib
 
+from sqlalchemy import null
+
 bp = Blueprint("users", __name__, url_prefix="/users")
 
 
@@ -49,6 +51,24 @@ def get_user_by_id(user_id):
         }
 
     return jsonify(user_to_dict(user)), 200
+
+
+# Route to update the subscription_info of a user
+@bp.route("/<string:user_id>/subscribe", methods=["PUT"])
+def subscribe(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    
+    try:
+        data = request.get_json()
+    except Exception:
+        data = null()
+    user.subscription_info = data
+
+    db.session.commit()
+
+    return jsonify({"message": "User subscription info updated"}), 200
 
 
 def generate_password_hash(password):

@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, Text, DateTime, Float
+from sqlalchemy import Boolean, Column, String, Integer, ForeignKey, Text, DateTime, Float, JSON
 from sqlalchemy.orm import relationship
 
 from db import db
@@ -14,6 +14,8 @@ class User(db.Model):
     # Define a one-to-many relationship with bicycles
     bicycles = relationship("Bicycle", back_populates="user")
     reports = relationship("Report", back_populates="user")
+
+    subscription_info = Column(JSON, nullable=True)
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.name!r}, email={self.email!r})"
@@ -34,6 +36,11 @@ class Bicycle(db.Model):
     # Add fields for latitude and longitude
     last_seen_lat = Column(Float, nullable=True)
     last_seen_lon = Column(Float, nullable=True)
+
+    # device_id attribute
+    device_id = Column(String(36), nullable=True)
+
+    # image_url attribute
 
     # To be used to detect whether to send notification to user.
     # if device sends payload isStolen=true, send only when db is_stolen=False.

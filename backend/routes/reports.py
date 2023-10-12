@@ -129,3 +129,33 @@ def get_all_reports():
         return jsonify(reports_data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# 2 endpoints
+
+# endpoint to retrieve gpsData,
+# unique device id, lat lon
+
+# to notify user of theft (deviceId, boolean isStolen)
+
+# 1. Endpoint to update bicycle coords (bikeId, lat,lon)
+
+# Endpoint Two
+# {
+# deviceId,
+# lat, lon, 
+# isStolen (boolean)
+# }
+# if isStolen, relay it to frontend through push notification,
+# 
+#
+#
+# (Explore Push API)
+# if !isStolen,
+# 1. check bicycleStatus is stolen before, if so set back,
+# notify user bicycle is not stolen
+#
+# 2. check reportStatus is ongoing before, if so set to resolved,
+# notify user report has been resolved
+#
+#
