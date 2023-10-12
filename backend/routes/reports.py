@@ -12,7 +12,13 @@ def decode_coord(lat, long):
         return None
     geolocator = Nominatim(user_agent="MyApp")
     location = geolocator.reverse([lat, long])
+    if "address" not in location.raw:
+        return None
     address = location.raw["address"]
+
+    if "suburb" not in address or "road" not in address:
+        return None
+
     return f"{address['suburb']}, {address['road']}"
 
 
