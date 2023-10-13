@@ -25,3 +25,14 @@ export async function get_all_bicycles(user_id: string): Promise<any> {
     throw error;
   }
 }
+
+export async function addReport(report: Report): Promise<any> {
+  try {
+    const response = await axios.post(`${baseAPI}reports/`, report);
+    return response.data;
+  } catch (error) {
+    // Handle error, e.g., log it or return an error message
+    console.error("Error adding report:", error);
+    throw error;
+  }
+}

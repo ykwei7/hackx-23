@@ -4,6 +4,7 @@ import {
   useLoadScript,
   Marker,
   Autocomplete,
+  Circle,
 } from "@react-google-maps/api";
 
 const Map = ({ currBike, bikes }) => {
@@ -57,6 +58,7 @@ const Map = ({ currBike, bikes }) => {
           setSelectedPlace(null);
           setSearchLngLat(null);
           setCurrentLocation({ lat: latitude, lng: longitude });
+          console.log({ latitude, longitude });
         },
         (error) => {
           console.log(error);
@@ -77,7 +79,17 @@ const Map = ({ currBike, bikes }) => {
     map.controls[window.google.maps.ControlPosition.TOP_CENTER].push(
       controlDiv
     );
-
+    const cityCircle = new google.maps.Circle({
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#FF0000",
+      fillOpacity: 0.35,
+      map,
+      // novena mrt
+      center: { lat: 1.3085, lng: 103.8451 },
+      radius: 500,
+    });
     handleGetLocationClick();
   };
 
@@ -116,6 +128,19 @@ const Map = ({ currBike, bikes }) => {
             icon={bikeIcon}
           />
         ))}
+
+        {/* <Marker position={{ lat: 1.3085, lng: 103.8451 }} icon={bikeIcon} /> */}
+        {/* <Circle
+          center={{ lat: 2.3055, lng: 103.7731 }}
+          radius={10000}
+          options={{
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+          }}
+        ></Circle> */}
       </GoogleMap>
 
       {/* search component  */}
