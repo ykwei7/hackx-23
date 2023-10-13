@@ -1,6 +1,7 @@
 import { get_user_info } from "@/app/api/users/route";
 import { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from "next/navigation";
 
 export const ProfilePage = () => {
   const user_id = sessionStorage.getItem("user_id");
@@ -8,6 +9,8 @@ export const ProfilePage = () => {
   const [email, setEmail] = useState(null);
   const [phoneNum, setPhoneNum] = useState(null);
   const [bio, setBio] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const router = useRouter();
 
   function capitalize(str) {
     // Check if the string is empty or null
@@ -17,18 +20,24 @@ export const ProfilePage = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  const logout = () => {
+    sessionStorage.removeItem("user_id");
+    router.push("/");
+  };
+
   useEffect(() => {
     get_user_info(user_id)
       .then((res) => {
         setEmail(res.email);
         setUsername(res.name);
+        setIsLoaded(true);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  return (
-    <div className="bg-gray-100 pt-4 px-4">
+  return isLoaded ? (
+    <div className="bg-gray-100 px-4 min-h-screen">
       <header className="text-center py-4">
         <img
           src="https://via.placeholder.com/150"
@@ -44,7 +53,7 @@ export const ProfilePage = () => {
         <h2 className="text-lg font-semibold mb-2">About Me</h2>
         <p className="text-gray-600">
           {bio ??
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod ultricies libero, non venenatis justo tristique at."}
+            "Dedicated cyclist, exploring new routes and pushing boundaries. Passion for endless adventures."}
         </p>
       </section>
 
@@ -53,9 +62,24 @@ export const ProfilePage = () => {
         <p className="text-gray-600">
           Email: {email ?? "-"}
           <br />
-          Phone: {phoneNum ?? "-"}
+          Phone: {phoneNum ?? "9123 4567"}
         </p>
       </section>
+
+      <div className="w-full px-3 py-8">
+        <button
+          className="btn text-white bg-black hover:bg-gray-700 w-full"
+          onClick={logout}
+        >
+          Logout
+        </button>
+      </div>
     </div>
+  ) : (
+    <>
+      <div className="flex justify-center items-start pt-4">
+        <CircularProgress sx={{ color: "grey" }} />
+      </div>
+    </>
   );
 };

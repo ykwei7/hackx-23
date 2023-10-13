@@ -2,21 +2,13 @@ import axios from "axios";
 
 const baseAPI = "http://localhost:1234/";
 
-interface Report {
-  user_id: string, 
-  bike_id: string, 
-  description: string, 
-  lat: number, 
-  long: number, 
-};
-
-export async function get_all_reports(): Promise<any> {
+export async function get_all_reports(limit = 10): Promise<any> {
   try {
-    const response = await axios.get(`${baseAPI}reports`);
+    const response = await axios.get(`${baseAPI}reports?limit=${limit}`);
     return response.data;
   } catch (error) {
     // Handle error, e.g., log it or return an error message
-    console.error("Error getting reports:", error);
+    console.error("Error signing up:", error);
     throw error;
   }
 }
@@ -29,18 +21,7 @@ export async function get_all_bicycles(user_id: string): Promise<any> {
     return response.data;
   } catch (error) {
     // Handle error, e.g., log it or return an error message
-    console.error("Error getting bicycles:", error);
-    throw error;
-  }
-}
-
-export async function addReport(report: Report): Promise<any> {
-  try {
-    const response = await axios.post(`${baseAPI}reports/`, report);
-    return response.data;
-  } catch (error) {
-    // Handle error, e.g., log it or return an error message
-    console.error("Error adding report:", error);
+    console.error("Error signing up:", error);
     throw error;
   }
 }

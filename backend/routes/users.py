@@ -59,7 +59,7 @@ def subscribe(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"message": "User not found"}), 404
-    
+
     try:
         data = request.get_json()
     except Exception:
@@ -130,6 +130,7 @@ def get_user_bicycles(user_id):
                 "description": bicycle.description,
                 "last_seen_lat": bicycle.last_seen_lat,
                 "last_seen_lon": bicycle.last_seen_lon,
+                "is_stolen": bicycle.is_stolen,
             }
             bicycles_list.append(bicycle_info)
 

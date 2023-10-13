@@ -10,9 +10,7 @@ const Map = ({ currBike, bikes }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-  const initialLocation = useRef<any>({});
   const autocompleteRef = useRef(null);
-  const [address, setAddress] = useState("");
 
   // laod script for google map
   const { isLoaded } = useLoadScript({
@@ -37,7 +35,7 @@ const Map = ({ currBike, bikes }) => {
   if (!isLoaded) return <div>Loading....</div>;
 
   // static lat and lng
-  const center = { lat: "YOUR-LATITUDE", lng: "YOUR-LONGITUDE" };
+  // const center = { lat: "YOUR-LATITUDE", lng: "YOUR-LONGITUDE" };
 
   // handle place change on search
   const handlePlaceChanged = () => {
@@ -59,7 +57,6 @@ const Map = ({ currBike, bikes }) => {
           setSelectedPlace(null);
           setSearchLngLat(null);
           setCurrentLocation({ lat: latitude, lng: longitude });
-          initialLocation.current = { lat: latitude, lng: longitude };
         },
         (error) => {
           console.log(error);
@@ -74,15 +71,6 @@ const Map = ({ currBike, bikes }) => {
   const onMapLoad = (map) => {
     const controlDiv = document.createElement("div");
     const controlUI = document.createElement("div");
-    controlUI.innerHTML = "Get Location";
-    controlUI.style.backgroundColor = "white";
-    controlUI.style.color = "black";
-    controlUI.style.border = "2px solid #ccc";
-    controlUI.style.borderRadius = "3px";
-    controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-    controlUI.style.cursor = "pointer";
-    controlUI.style.textAlign = "center";
-    controlUI.style.width = "100%";
     controlUI.addEventListener("click", handleGetLocationClick);
     controlDiv.appendChild(controlUI);
 
@@ -111,7 +99,7 @@ const Map = ({ currBike, bikes }) => {
       {/* map component  */}
       <GoogleMap
         zoom={currentLocation || selectedPlace ? 18 : 12}
-        center={currentLocation || searchLngLat || center}
+        center={currentLocation || searchLngLat}
         mapContainerClassName="map"
         mapContainerStyle={{ width: "80%", height: "20rem", margin: "auto" }}
         onLoad={onMapLoad}
@@ -120,6 +108,7 @@ const Map = ({ currBike, bikes }) => {
         {currentLocation && <Marker position={currentLocation} />}
         {bikes.map((bike) => (
           <Marker
+            key={`marker-${bike.id}`}
             position={{
               lat: bike.last_seen_lat,
               lng: bike.last_seen_lon,
