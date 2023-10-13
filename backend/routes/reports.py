@@ -2,10 +2,14 @@ from flask import Blueprint, request, jsonify
 from models import Report, User, Bicycle
 from db import db
 from geopy.geocoders import Nominatim
-import datetime
+import geopy.geocoders
+from datetime import datetime
+import certifi
+import ssl
 
 bp = Blueprint("reports", __name__, url_prefix="/reports")
-
+ctx = ssl.create_default_context(cafile=certifi.where())
+geopy.geocoders.options.default_ssl_context = ctx
 
 def decode_coord(lat, long):
     if lat is None or long is None:
@@ -25,6 +29,7 @@ def decode_coord(lat, long):
 # Define a route to add a new report
 @bp.route("/", methods=["POST"])
 def add_report():
+    # try:
     data = request.json  # Assuming you're sending JSON data in the request
     user_id = data.get("user_id")
     bike_id = data.get("bike_id")
@@ -33,6 +38,7 @@ def add_report():
     long = data.get("long")
 
     reported_time = datetime.now()
+    # print(reported_time)
 
     # Check if the user and bicycle exist
     user = User.query.get(user_id)
@@ -53,6 +59,8 @@ def add_report():
 
     db.session.add(new_report)
     db.session.commit()
+    # except Exception as error:
+    #     print("An exception occurred:", error)
 
     return jsonify({"message": "Report added successfully"}), 201
 

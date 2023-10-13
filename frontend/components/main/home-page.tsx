@@ -7,12 +7,14 @@ import FeedIcon from "@mui/icons-material/Feed";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
 import { get_all_bicycles, get_all_reports } from "@/app/api/main/route";
+import { Report } from "@/components/main/types";
 
 export const HomePage: React.FC = ({ views, setView }) => {
   const [bikes, setBikes] = useState([]);
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<Report[]>([]);
   const user_id = sessionStorage.getItem("user_id");
   useEffect(() => {
+    console.log("Gettins reports + bikes");
     get_all_reports().then((res) => {
       if (res.length) {
         setReports([res[0]]);
@@ -31,39 +33,44 @@ export const HomePage: React.FC = ({ views, setView }) => {
             </IconButton>
             <span>Latest Incident</span>
           </div>
-          {reports.map((report) => (
-            <div key={report.id}>
-              <p className="incident-container">
-                <span className="incident-title">Bike:</span>
-                <span className="incident-desc">
-                  {report.bike_brand && report.bike_model
-                    ? `${report.bike_brand}, ${report.bike_model}`
-                    : "-"}
-                </span>
-              </p>
-              <p className="incident-container">
-                <span className="incident-title">Last Seen At:</span>
-                <span className="incident-desc">{report.address ?? "-"}</span>
-              </p>
-              <p className="incident-container">
-                <span className="incident-title">Reported At:</span>
-                <span className="incident-desc">
-                  {report.reported_time ?? "-"}
-                </span>
-              </p>
-              <p className="incident-container">
-                <span className="incident-title">Description:</span>
-                <span className="incident-desc">
-                  {report.description ?? "-"}
-                </span>
-              </p>
-              <div className="incident-container leading-4 mt-2">
-                <span className="text-gray-500">
-                  If found, please contact 9123 4567 to reach the owner.
-                </span>
+          {reports.map((report) => {
+            let date = new Date(report.reported_time);
+            let localeTimeStr = date.toLocaleTimeString("en-US");
+            let dateStr = date.toDateString();
+            return (
+              <div key={report.id}>
+                <p className="incident-container">
+                  <span className="incident-title">Bike:</span>
+                  <span className="incident-desc">
+                    {report.bike_brand && report.bike_model
+                      ? `${report.bike_brand}, ${report.bike_model}`
+                      : "-"}
+                  </span>
+                </p>
+                <p className="incident-container">
+                  <span className="incident-title">Last Seen At:</span>
+                  <span className="incident-desc">{report.address ?? "-"}</span>
+                </p>
+                <p className="incident-container">
+                  <span className="incident-title">Reported At:</span>
+                  <span className="incident-desc">
+                    {dateStr.concat(" ", localeTimeStr) ?? "-"}
+                  </span>
+                </p>
+                <p className="incident-container">
+                  <span className="incident-title">Description:</span>
+                  <span className="incident-desc">
+                    {report.description ?? "-"}
+                  </span>
+                </p>
+                <div className="incident-container leading-4 mt-2">
+                  <span className="text-gray-500">
+                    If found, please contact 9123 4567 to reach the owner.
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className="banner-box main-banner rounded-md d-flex items-center">
           <div className="banner-title">
