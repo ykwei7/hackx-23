@@ -52,7 +52,7 @@ class Bicycle(db.Model):
     device_id = Column(String(36), nullable=True)
 
     # image_url attribute
-    image_url = Column(Text, nullable=True)
+    image_url = Column(Text(), nullable=True)
 
     # To be used to detect whether to send notification to user.
     # if device sends payload isStolen=true, send only when db is_stolen=False.
