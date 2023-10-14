@@ -2,9 +2,10 @@ from flask import Blueprint, request, jsonify
 from models import Bicycle, User
 from db import db
 
+import os
 import uuid
 
-from pywebpush import WebPusher, WebPushException
+from pywebpush import webpush, WebPushException
 
 from datetime import datetime, timedelta
 
@@ -165,8 +166,19 @@ def update_bicycle(bicycle_id):
                 else:
                     data = "Bicycle is not stolen"
 
-                wb = WebPusher(subscription_info)
-                wb.send(data)
+                print(data)
+
+                # Define your VAPID keys and claims
+                vapid_private_key = os.getenv("vapid_private_key")
+                vapid_claims = {"sub": "mailto:YourEmail@example.org"}
+
+                # Use the webpush function instead of the WebPusher object
+                webpush(
+                    subscription_info,
+                    data,
+                    vapid_private_key=vapid_private_key,
+                    vapid_claims=vapid_claims,
+                )
 
             except WebPushException as e:
                 print("Web push failed: {}", repr(e))
