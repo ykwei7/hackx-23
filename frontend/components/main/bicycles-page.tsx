@@ -9,6 +9,7 @@ type Bicycle = {
   brand: string;
   description: string;
   id: string;
+  image_url: string;
   is_stolen: boolean;
   last_seen_lat: number;
   last_seen_lon: number;
@@ -32,7 +33,11 @@ export function BicyclesPage() {
         console.log(err);
         setLoading(false);
       });
-  }, [userId]);
+  }, [userId, loading]);
+
+  function refreshBikes() {
+    setLoading(true);
+  }
 
   return (
     <div>
@@ -51,12 +56,13 @@ export function BicyclesPage() {
                 model={bike.model}
                 lat={bike.last_seen_lat}
                 long={bike.last_seen_lon}
+                image_url={bike.image_url}
               />
             ))}
           </div>
         )}
       </div>
-      <AddBicycle />
+      <AddBicycle successCallback={refreshBikes} />
     </div>
   );
 }

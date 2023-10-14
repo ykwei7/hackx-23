@@ -27,6 +27,7 @@ export const HomePage: React.FC = ({ views, setView }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
+    console.log(file);
   };
 
   const submitImage = () => {
