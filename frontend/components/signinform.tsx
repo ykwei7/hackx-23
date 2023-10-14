@@ -21,6 +21,7 @@ export default function SignInForm() {
         router.push("/main");
       })
       .catch((err) => {
+        console.log("working");
         console.log(err);
       });
   };

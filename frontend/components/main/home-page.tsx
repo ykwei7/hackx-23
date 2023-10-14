@@ -46,6 +46,15 @@ export const HomePage: React.FC = ({ views, setView }) => {
               let dateStr = date.toDateString();
               return (
                 <div key={report.id}>
+                  <div className="d-flex items-center mb-4">
+                    {report.image_url && (
+                      <img
+                        src={report.image_url}
+                        alt="bike"
+                        className="w-4/5 object-cover rounded-lg mx-auto"
+                      />
+                    )}
+                  </div>
                   <p className="incident-container">
                     <span className="incident-title">Bike:</span>
                     <span className="incident-desc">

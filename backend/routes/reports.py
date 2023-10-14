@@ -11,6 +11,7 @@ bp = Blueprint("reports", __name__, url_prefix="/reports")
 ctx = ssl.create_default_context(cafile=certifi.where())
 geopy.geocoders.options.default_ssl_context = ctx
 
+
 def decode_coord(lat, long):
     if lat is None or long is None:
         return None
@@ -130,6 +131,7 @@ def get_all_reports():
                 "bike_brand": report.bicycle.brand,  # Access the bike's brand
                 "bike_model": report.bicycle.model,  # Access the bike's model
                 "username": report.user.name,  # Access the user's phone number
+                "image_url": report.bicycle.image_url,  # Access the user's phone number
             }
             for report in reports
         ]
@@ -151,11 +153,11 @@ def get_all_reports():
 # Endpoint Two
 # {
 # deviceId,
-# lat, lon, 
+# lat, lon,
 # isStolen (boolean)
 # }
 # if isStolen, relay it to frontend through push notification,
-# 
+#
 #
 #
 # (Explore Push API)
