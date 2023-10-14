@@ -2,6 +2,7 @@ import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Fab from "@mui/material/Fab";
@@ -11,16 +12,17 @@ import ImageUploader from "react-images-upload";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import QRScanner from "./qr-scanner";
+import { addUserBicycleWithImage } from "@/app/api/bicycles/route";
 
-export default function AddBicycle() {
+export default function AddBicycle({ successCallback }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState("");
+  const [picture, setPicture] = useState(null);
   const [deviceId, setDeviceId] = useState("");
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState("");
   const [qrOpen, setQrOpen] = useState(false);
 
   const [error, setError] = useState({
@@ -30,21 +32,34 @@ export default function AddBicycle() {
     picture: false,
   });
 
+  const user_id = sessionStorage.getItem("user_id");
+
+  function resetForm() {
+    setName("");
+    setBrand("");
+    setModel("");
+    setDescription("");
+    setPicture(null);
+    setPreview("");
+    setDeviceId("");
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (event: {}, reason: string) => {
     if (reason === "backdropClick") {
       return;
     }
+    resetForm();
     setOpen(false);
   };
 
-  const onSelectPicture = (files, pictures) => {
-    setPicture(pictures[0]);
-    setPreview(URL.createObjectURL(files[0]));
-    setError((prevError) => ({ ...prevError, picture: false }));
+  const onSelectPicture = (e) => {
+    const file = e.target.files[0];
+    setPicture(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = () => {
@@ -58,8 +73,24 @@ export default function AddBicycle() {
       return;
     }
 
-    const bicycle = { name, brand, model, description, picture, deviceId };
-    // Send bicycle to backend
+    const formData = new FormData();
+    formData.append("user_id", user_id as string);
+    formData.append("name", name);
+    formData.append("brand", brand);
+    formData.append("model", model);
+    formData.append("description", description);
+
+    if (picture) {
+      formData.append("image", picture);
+      addUserBicycleWithImage(formData)
+        .then((res) => {
+          successCallback();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     handleClose({}, "");
   };
 
@@ -94,6 +125,7 @@ export default function AddBicycle() {
         <DialogTitle>Add Bicycle</DialogTitle>
         <DialogContent className="overflow-hidden w-[100%]">
           <div className="w-[100%] mb-1">
+            <DialogContentText>Bicycle Name</DialogContentText>
             <TextField
               required
               error={error.name}
@@ -104,6 +136,7 @@ export default function AddBicycle() {
             />
           </div>
           <div className="w-[100%] mb-1">
+            <DialogContentText>Bicycle Brand</DialogContentText>
             <TextField
               required
               error={error.brand}
@@ -114,6 +147,7 @@ export default function AddBicycle() {
             />
           </div>
           <div className="w-[100%] mb-1">
+            <DialogContentText>Bicycle Model</DialogContentText>
             <TextField
               required
               error={error.model}
@@ -124,36 +158,45 @@ export default function AddBicycle() {
             />
           </div>
           <div className="w-[100%] mb-1">
+            <DialogContentText>Short Description</DialogContentText>
             <TextField
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
               className="w-[100%]"
             />
           </div>
+          <DialogContentText>Upload an Image</DialogContentText>
           <div
             className={
-              "w-[100%] mb-1 border rounded flex items-center flex-col " +
+              "w-[100%] mb-1 p-1 border rounded flex items-center flex-col " +
               (error.picture ? "border-red-600" : "border-transparent")
             }
           >
-            <ImageUploader
-              withIcon={false}
-              withLabel={false}
-              singleImage={true}
-              buttonText="Choose image"
-              onChange={onSelectPicture}
-              imgExtension={[".jpg", ".jpeg", ".png"]}
-              maxFileSize={5242880}
-              fileContainerStyle={{ boxShadow: "none", margin: 0, padding: 0 }}
-            />
+            <label
+              htmlFor="file-upload"
+              className="py-2 px-3 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              Select from library
+              <input
+                id="file-upload"
+                type="file"
+                className="sr-only"
+                onChange={onSelectPicture}
+              />
+            </label>
             {preview && (
-              <img src={preview} alt="Preview" className="w-[80%] rounded" />
+              <img
+                src={preview}
+                alt="Preview"
+                className="w-[80%] rounded mt-1"
+              />
             )}
           </div>
+          <DialogContentText>Add your tracking device</DialogContentText>
           <div className="w-[100%] mb-1 flex flex-row items-center">
             <TextField
               value={deviceId}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setDeviceId(e.target.value)}
               placeholder="Device ID"
               className="w-[80%]"
             />

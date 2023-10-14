@@ -1,7 +1,4 @@
 import "@/app/css/style.css";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 
 type BikeProps = {
   name: string;
@@ -9,27 +6,36 @@ type BikeProps = {
   model: string;
   lat: number;
   long: number;
+  image_url: string;
 };
 
-export default function Bike({ name, brand, model, lat, long }: BikeProps) {
+export default function Bike({
+  name,
+  brand,
+  model,
+  lat,
+  long,
+  image_url,
+}: BikeProps) {
   return (
-    <div className="d-flex flex-col justify-center items-center pt-0 pb-4 pl-4 pr-4 space-y-6">
-      <Card className="bike-card">
-        <CardContent>
-          <div className="d-flex justify-between items-center">
-            <Typography variant="h5" component="div">
-              {name}
-            </Typography>
-          </div>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {brand}
-          </Typography>
-          <Typography variant="body2">Model: {model}</Typography>
-          <Typography variant="body2">
-            Location: {lat && long ? `${lat}, ${long}` : "-"}
-          </Typography>
-        </CardContent>
-      </Card>
+    <div className="rounded-lg shadow-md bg-gray-200 p-3 m-3">
+      <h2 className="text-lg font-bold mb-2">{name}</h2>
+      <div className="flex">
+        <div className="flex-1">
+          <p>Brand: {brand || "-"}</p>
+          <p>Model: {model || "-"}</p>
+          <p>Location: {lat && long ? `${lat}, ${long}` : "-"}</p>
+        </div>
+        <div className="w-1/3">
+          {image_url && (
+            <img
+              src={image_url}
+              alt="bike"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

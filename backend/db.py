@@ -17,6 +17,8 @@ password = os.getenv("password")
 host = os.getenv("host")
 port = os.getenv("port")
 database = os.getenv("database")
+sas_url = os.getenv("sas_url")
+container_name = os.getenv("container_name")
 
 
 def get_db_uri():
