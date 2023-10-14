@@ -5,7 +5,7 @@ const baseAPI = "http://localhost:1234/";
 
 export async function get_all_reports(limit = 10): Promise<any> {
   try {
-    const response = await axios.get(`${baseAPI}reports?limit=${limit}`);
+    const response = await axios.get(`${baseAPI}reports/?limit=${limit}`);
     return response.data;
   } catch (error) {
     // Handle error, e.g., log it or return an error message
