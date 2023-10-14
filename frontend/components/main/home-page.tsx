@@ -7,7 +7,6 @@ import FeedIcon from "@mui/icons-material/Feed";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
 import { get_all_bicycles, get_all_reports } from "@/app/api/main/route";
-import { addUserBicycleWithImage } from "@/app/api/bicycles/route";
 
 export const HomePage: React.FC = ({ views, setView }) => {
   const [bikes, setBikes] = useState([]);
@@ -22,42 +21,8 @@ export const HomePage: React.FC = ({ views, setView }) => {
     get_all_bicycles(user_id).then((res) => setBikes(res.bicycles));
   }, []);
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedImage(file);
-    console.log(file);
-  };
-
-  const submitImage = () => {
-    const formData = new FormData();
-    formData.append("user_id", user_id);
-    formData.append("name", "T-Bike1");
-    formData.append("brand", "Brand1");
-    formData.append("model", "Model1");
-    formData.append("description", "desc1");
-
-    console.log(selectedImage);
-
-    if (selectedImage) {
-      formData.append("image", selectedImage);
-      addUserBicycleWithImage(formData)
-        .then((res) => {
-          console.log("success");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      alert("Please select an image before submitting.");
-    }
-  };
-
   return (
     <div className="d-flex flex-col justify-center items-center min-h-screen pb-12 pl-4 pr-4 space-y-6">
-      <input type="file" onChange={handleImageChange}></input>
-      <button onClick={submitImage}>hi</button>
       <div>
         <div className="circular-progress-container">
           <div className="banner-title ml-2">
