@@ -26,9 +26,19 @@ type Bicycle = {
   user_id: string;
 };
 
-export default function ReportForm({ open, handleClose }) {
-  // const [coordinates, setCoordinates] = useState<String>();
-  // const [location, setLocation] = useState<String>("");
+interface ReportFormProps {
+  open: boolean;
+  handleClose: (reason: string) => void;
+  isReportSubmitSuccess: boolean;
+  setIsReportSubmitSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ReportForm({
+  open,
+  handleClose,
+  isReportSubmitSuccess,
+  setIsReportSubmitSuccess,
+}: ReportFormProps) {
   const [bicycles, setBicycles] = useState<Bicycle[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [bicycleName, setBicycleName] = useState<string>("");
@@ -42,7 +52,6 @@ export default function ReportForm({ open, handleClose }) {
     bicycleName: false,
     description: false,
   });
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id") || "";
@@ -104,13 +113,14 @@ export default function ReportForm({ open, handleClose }) {
     // Send report to backend
     try {
       addReport(report);
-      setIsSuccess(true);
+      setIsReportSubmitSuccess(true);
     } catch (err) {
       console.error("Error adding report:", err);
     }
 
-    // Success dialog appears for 2 seconds then reset form
+    // Success dialog appears for 2 seconds then close form + reset form
     setTimeout(() => {
+      handleClose("");
       resetForm();
     }, 2000);
   };
@@ -217,7 +227,7 @@ export default function ReportForm({ open, handleClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              handleClose(e, "");
+              handleClose("");
               setError({
                 bicycleName: false,
                 description: false,
@@ -228,7 +238,10 @@ export default function ReportForm({ open, handleClose }) {
           </Button>
           <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
-        <SuccessDialog isSuccess={isSuccess} setIsSuccess={setIsSuccess} />
+        <SuccessDialog
+          isSuccess={isReportSubmitSuccess}
+          setIsSuccess={setIsReportSubmitSuccess}
+        />
       </Dialog>
     </div>
   );
