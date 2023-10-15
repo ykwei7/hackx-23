@@ -6,6 +6,9 @@ import {
   Autocomplete,
   Circle,
 } from "@react-google-maps/api";
+import { getBicycleLocation } from "@/app/api/bicycles/route";
+
+const libraries = ["places"];
 
 const Map = ({ currBike, bikes }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
@@ -16,21 +19,42 @@ const Map = ({ currBike, bikes }) => {
   // laod script for google map
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
+    libraries: libraries,
   });
 
+  // useEffect(() => {
+  //   if (
+  //     currBike == null ||
+  //     currBike.last_seen_lat == null ||
+  //     currBike.last_seen_lon == null
+  //   ) {
+  //     return;
+  //   }
+  //   setCurrentLocation({
+  //     lat: currBike.last_seen_lat,
+  //     lng: currBike.last_seen_lon,
+  //   });
+  // }, [currBike]);
+
+  let intervalId;
   useEffect(() => {
-    if (
-      currBike == null ||
-      currBike.last_seen_lat == null ||
-      currBike.last_seen_lon == null
-    ) {
-      return;
+    if (currBike) {
+      intervalId = setInterval(async () => {
+        const data = await getBicycleLocation(currBike.id);
+        if (data.lat === null || data.long === null) {
+          return;
+        }
+
+        setCurrentLocation({
+          lat: parseFloat(data.lat),
+          lng: parseFloat(data.long),
+        });
+      }, 1000);
     }
-    setCurrentLocation({
-      lat: currBike.last_seen_lat,
-      lng: currBike.last_seen_lon,
-    });
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [currBike]);
 
   if (!isLoaded) return <div>Loading....</div>;

@@ -185,3 +185,13 @@ def update_bicycle(bicycle_id):
                 print("Web push failed: {}", repr(e))
 
     return jsonify({"message": "Bicycle updated successfully"}), 200
+
+
+# Define a route to delete a bicycle by ID
+@bp.route("/<string:bicycle_id>/location", methods=["GET"])
+def get_bicycle_location(bicycle_id):
+    bicycle = Bicycle.query.get(bicycle_id)
+    if not bicycle:
+        return jsonify({"message": "Bicycle not found"}), 404
+
+    return jsonify({"lat": bicycle.last_seen_lat, "long": bicycle.last_seen_lon}), 200
