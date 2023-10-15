@@ -122,7 +122,7 @@ export default function ReportForm({
     setTimeout(() => {
       handleClose("");
       resetForm();
-    }, 2000);
+    }, 2500);
   };
 
   const resetForm = () => {
@@ -238,11 +238,11 @@ export default function ReportForm({
           </Button>
           <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
-        <SuccessDialog
-          isSuccess={isReportSubmitSuccess}
-          setIsSuccess={setIsReportSubmitSuccess}
-        />
       </Dialog>
+      <SuccessDialog
+        isSuccess={isReportSubmitSuccess}
+        setIsSuccess={setIsReportSubmitSuccess}
+      />
     </div>
   );
 }

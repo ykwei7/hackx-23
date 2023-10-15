@@ -8,7 +8,7 @@ import ReportForm from "@/components/report-form";
 import { Report } from "@/components/main/types";
 
 function ReportPage(): React.FC {
-  const [open, setOpen] = useState<Boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
   const [isReportSubmitSuccess, setIsReportSubmitSuccess] =
