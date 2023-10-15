@@ -4,8 +4,8 @@ self.addEventListener("push", function (event) {
     console.log(text);
 
     self.registration.showNotification("NOTIFICATION", {
-      body: text, // you can add more data here as per your requirement
-      // icon: "/icon.png", // replace with your icon path
+      body: text,
+      icon: "/assets/bike-stolen.png",
     });
   } else {
     console.log("This push event has no data.");
@@ -13,9 +13,7 @@ self.addEventListener("push", function (event) {
 });
 
 self.addEventListener("notificationclick", function (event) {
-  event.notification.close(); // to close the notification
+  event.notification.close();
 
-  event.waitUntil(
-    clients.openWindow("/main") // assuming "/" is your home page
-  );
+  event.waitUntil(clients.openWindow("/main?page=map"));
 });

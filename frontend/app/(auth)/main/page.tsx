@@ -73,7 +73,7 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray;
 }
 
-export default function MainPage() {
+export default function MainPage({ searchParams }) {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       registerServiceWorker();
@@ -95,7 +95,7 @@ export default function MainPage() {
     subscribeUserToPush(sessionStorage.getItem("user_id") as string);
   }, [notifEnabled]);
 
-  const [currView, setView] = useState("home");
+  const [currView, setView] = useState(searchParams.page || "home");
   const views = {
     map: "map",
     bicycles: "bicycles",

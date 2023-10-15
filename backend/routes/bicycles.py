@@ -166,14 +166,12 @@ def update_bicycle(bicycle_id):
                 else:
                     data = "Bicycle is not stolen"
 
-                print(data)
-
                 # Define your VAPID keys and claims
                 vapid_private_key = os.getenv("vapid_private_key")
-                vapid_claims = {"sub": "mailto:YourEmail@example.org"}
+                vapid_claims = {"sub": "mailto:clementfoooo@gmail.com"}
 
                 # Use the webpush function instead of the WebPusher object
-                webpush(
+                resp = webpush(
                     subscription_info,
                     data,
                     vapid_private_key=vapid_private_key,
