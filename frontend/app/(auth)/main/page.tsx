@@ -81,12 +81,20 @@ export default function MainPage({ searchParams }) {
   }, []);
 
   const [openModal, setOpenModal] = useState(false);
-  const [notifEnabled, setNotifEnabled] = useState(
-    Notification.permission === "granted"
-  );
+
+  var defaultIsNotifEnabled = false;
+  if (typeof window != "undefined" && "Notification" in window) {
+    defaultIsNotifEnabled = Notification.permission === "granted";
+  }
+  const [notifEnabled, setNotifEnabled] = useState(defaultIsNotifEnabled);
   useEffect(() => {
     const notif_allowed = localStorage.getItem("notif_allowed") || "yes";
-    if (Notification.permission !== "granted" && notif_allowed !== "no") {
+    if (
+      typeof window != "undefined" &&
+      "Notification" in window &&
+      Notification.permission !== "granted" &&
+      notif_allowed !== "no"
+    ) {
       setOpenModal(true);
     }
   }, []);
