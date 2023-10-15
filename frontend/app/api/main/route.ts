@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ReportSubmit } from "@/components/main/types";
 
 const baseAPI = "http://localhost:1234/";
 
@@ -26,7 +27,7 @@ export async function get_all_bicycles(user_id: string): Promise<any> {
   }
 }
 
-export async function addReport(report: Report): Promise<any> {
+export async function addReport(report: ReportSubmit): Promise<any> {
   try {
     const response = await axios.post(`${baseAPI}reports/`, report);
     return response.data;

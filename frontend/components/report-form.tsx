@@ -8,11 +8,11 @@ import TextField from "@mui/material/TextField";
 import { getUserBicycles } from "@/app/api/bicycles/route";
 import { addReport } from "@/app/api/main/route";
 import SuccessDialog from "@/components/ui/success-dialog";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { ReportSubmit } from "@/components/main/types";
 
 type Bicycle = {
   id: string;
@@ -108,7 +108,7 @@ export default function ReportForm({
       return;
     }
 
-    const report = { user_id, bike_id, description, lat, long };
+    const report: ReportSubmit = { user_id, bike_id, description, lat, long };
 
     // Send report to backend
     try {

@@ -13,3 +13,11 @@ export interface Report {
   username: string;
   image_url: string;
 }
+
+export interface ReportSubmit {
+  user_id: string;
+  bike_id: string;
+  description: string;
+  lat: number;
+  long: number;
+}
