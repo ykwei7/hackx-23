@@ -31,6 +31,7 @@ def add_bicycle():
     fileData = request.files.get("image", None)
     last_seen_lat = form.get("last_seen_lat", None)
     last_seen_lon = form.get("last_seen_lon", None)
+    device_id = form.get("device_id", "")
 
     # Check if the user exists
     user = User.query.get(user_id)
@@ -51,6 +52,7 @@ def add_bicycle():
         description=description,
         last_seen_lat=last_seen_lat,
         last_seen_lon=last_seen_lon,
+        device_id=device_id,
     )
 
     blob_service_client = BlobServiceClient.from_connection_string(sas_url)
@@ -106,6 +108,7 @@ def get_all_bicycles():
                 "last_seen_lon": b.last_seen_lon,
                 "is_stolen": b.is_stolen,
                 "image_url": b.image_url,
+                "device_id": b.device_id,
             }
             for b in bicycles
         ]

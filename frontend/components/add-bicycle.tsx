@@ -79,6 +79,7 @@ export default function AddBicycle({ successCallback }) {
     formData.append("brand", brand);
     formData.append("model", model);
     formData.append("description", description);
+    formData.append("device_id", deviceId);
 
     if (picture) {
       formData.append("image", picture);

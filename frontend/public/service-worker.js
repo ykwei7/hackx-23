@@ -1,10 +1,10 @@
 self.addEventListener("push", function (event) {
   if (event.data) {
-    let text = event.data.text();
-    console.log(text);
+    let data = event.data.json();
+    console.log(data);
 
-    self.registration.showNotification("NOTIFICATION", {
-      body: text,
+    self.registration.showNotification("Bike Track Alert 🚨", {
+      body: data.message,
       icon: "/assets/bike-stolen.png",
     });
   } else {
@@ -15,5 +15,7 @@ self.addEventListener("push", function (event) {
 self.addEventListener("notificationclick", function (event) {
   event.notification.close();
 
-  event.waitUntil(clients.openWindow("/main?page=map"));
+  event.waitUntil(
+    clients.openWindow(`/main?page=map&bike_id=${data.bicycle.id}`)
+  );
 });
