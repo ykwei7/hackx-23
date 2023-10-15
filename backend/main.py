@@ -1,7 +1,7 @@
 from flask import Flask
 
 from db import db, get_db_uri
-from routes import users, bicycles, reports
+from routes import users, bicycles, reports, devices
 
 from models import *
 from flask_cors import CORS
@@ -30,6 +30,7 @@ def get_api_health():
 app.register_blueprint(users.bp)
 app.register_blueprint(bicycles.bp)
 app.register_blueprint(reports.bp)
+app.register_blueprint(devices.bp)
 
 
 def main():

@@ -3,6 +3,7 @@ from models import Bicycle, User
 from db import db
 
 import os
+import json
 
 from pywebpush import webpush, WebPushException
 
@@ -35,18 +36,16 @@ def update_bicycle_stolen(device_id):
         if subscription_info:
             try:
                 message = f"Suspicious activity detected for {bicycle.name}"
-                message_data = (
-                    jsonify(
-                        {
-                            "message": message,
-                            "bicycle": {
-                                "id": bicycle.id,
-                                "name": bicycle.name,
-                                "brand": bicycle.brand,
-                                "is_stolen": bicycle.is_stolen,
-                            },
-                        }
-                    ),
+                message_data = json.dumps(
+                    {
+                        "message": message,
+                        "bicycle": {
+                            "id": bicycle.id,
+                            "name": bicycle.name,
+                            "brand": bicycle.brand,
+                            "is_stolen": bicycle.is_stolen,
+                        },
+                    }
                 )
 
                 # Define your VAPID keys and claims
@@ -60,6 +59,7 @@ def update_bicycle_stolen(device_id):
                     vapid_private_key=vapid_private_key,
                     vapid_claims=vapid_claims,
                 )
+                print(resp)
 
             except WebPushException as e:
                 print("Web push failed: {}", repr(e))
