@@ -10,7 +10,7 @@ import { getBicycleLocation } from "@/app/api/bicycles/route";
 
 const libraries = ["places"];
 
-const Map = ({ currBike, bikes }) => {
+const Map = ({ currBike, bikes, currLat, currLong }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -36,26 +36,13 @@ const Map = ({ currBike, bikes }) => {
   //   });
   // }, [currBike]);
 
-  let intervalId;
   useEffect(() => {
-    if (currBike) {
-      intervalId = setInterval(async () => {
-        const data = await getBicycleLocation(currBike.id);
-        if (data.lat === null || data.long === null) {
-          return;
-        }
-
-        setCurrentLocation({
-          lat: parseFloat(data.lat),
-          lng: parseFloat(data.long),
-        });
-      }, 1000);
-    }
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [currBike]);
+    if (!currBike) return;
+    setCurrentLocation({
+      lat: currLat,
+      lng: currLong,
+    });
+  }, [currLat, currLong]);
 
   if (!isLoaded) return <div>Loading....</div>;
 

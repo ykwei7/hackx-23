@@ -37,13 +37,18 @@ export async function addReport(report: Report): Promise<any> {
   }
 }
 
-export async function addOrUpdateSubscription(sub: PushSubscription, user_id: string): Promise<any> {
+export async function addOrUpdateSubscription(
+  sub: PushSubscription,
+  user_id: string
+): Promise<any> {
   try {
-    const response = await axios.put(`${baseAPI}users/${user_id}/subscribe`, sub);
+    const response = await axios.put(
+      `${baseAPI}users/${user_id}/subscribe`,
+      sub
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating subscription:", error);
     throw error;
   }
 }
-

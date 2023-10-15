@@ -17,6 +17,8 @@ from azure.storage.blob import (
 
 from db import sas_url, container_name
 
+from routes.reports import decode_coord
+
 bp = Blueprint("bicycles", __name__, url_prefix="/bicycles")
 
 
@@ -194,4 +196,13 @@ def get_bicycle_location(bicycle_id):
     if not bicycle:
         return jsonify({"message": "Bicycle not found"}), 404
 
-    return jsonify({"lat": bicycle.last_seen_lat, "long": bicycle.last_seen_lon}), 200
+    return (
+        jsonify(
+            {
+                "lat": bicycle.last_seen_lat,
+                "long": bicycle.last_seen_lon,
+                "location": decode_coord(bicycle.last_seen_lat, bicycle.last_seen_lon),
+            }
+        ),
+        200,
+    )

@@ -5,12 +5,16 @@ import { useState, useEffect } from "react";
 import { get_all_bicycles } from "@/app/api/main/route";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSearchParams } from "next/navigation";
+import { getBicycleLocation } from "@/app/api/bicycles/route";
 
 export const MapPage: React.FC = () => {
   const searchParams = useSearchParams();
   const [bikes, setBikes] = useState([]);
   const [currBike, setCurrBike] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currLat, setCurrLat] = useState(null);
+  const [currLong, setCurrLong] = useState(null);
+  const [currAddress, setCurrAddress] = useState(null);
   const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
@@ -28,10 +32,57 @@ export const MapPage: React.FC = () => {
     });
   }, []);
 
+  let intervalId;
+  useEffect(() => {
+    if (currBike) {
+      intervalId = setInterval(async () => {
+        const data = await getBicycleLocation(currBike.id);
+        if (data.lat === null || data.long === null) {
+          return;
+        }
+
+        setCurrLat(parseFloat(data.lat));
+        setCurrLong(parseFloat(data.long));
+        setCurrAddress(data.location);
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [currBike]);
+
   return (
     <div className="pt-4 pb-10 px-4 h-full">
       <div>
-        <Map bikes={bikes} currBike={currBike} />
+        <Map
+          bikes={bikes}
+          currBike={currBike}
+          currLat={currLat}
+          currLong={currLong}
+        />
+
+        {currBike && (
+          <div className="flex justify-center items-center flex-col my-4 text-center">
+            <div>
+              <span className="font-medium">Tracking:</span> {currBike.name}
+            </div>
+            <div>
+              <span className="font-medium">Location:</span>{" "}
+              {currAddress ? (
+                <span>{currAddress}</span>
+              ) : (
+                <span className="blinking-text">...</span>
+              )}
+            </div>
+            <div>
+              <span className="font-medium">Live Coords:</span>{" "}
+              <span className="blinking-text">
+                {currLat && currLong ? `(${currLat}, ${currLong})` : "..."}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
       {isLoaded ? (
         <div className="map-bike-container">
