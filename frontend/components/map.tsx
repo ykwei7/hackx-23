@@ -67,8 +67,8 @@ const Map = ({ currBike, bikes }) => {
     const place = autocompleteRef.current.getPlace();
     setSelectedPlace(place);
     setSearchLngLat({
-      lat: place.geometry.location.lat(),
-      lng: place.geometry.location.lng(),
+      lat: +place.geometry.location.lat(),
+      lng: +place.geometry.location.lng(),
     });
     setCurrentLocation(null);
   };
@@ -81,7 +81,7 @@ const Map = ({ currBike, bikes }) => {
           const { latitude, longitude } = position.coords;
           setSelectedPlace(null);
           setSearchLngLat(null);
-          setCurrentLocation({ lat: latitude, lng: longitude });
+          setCurrentLocation({ lat: +latitude, lng: +longitude });
           console.log({ latitude, longitude });
         },
         (error) => {
@@ -146,8 +146,8 @@ const Map = ({ currBike, bikes }) => {
           <Marker
             key={`marker-${bike.id}`}
             position={{
-              lat: bike.last_seen_lat,
-              lng: bike.last_seen_lon,
+              lat: +bike.last_seen_lat,
+              lng: +bike.last_seen_lon,
             }}
             icon={bikeIcon}
           />
