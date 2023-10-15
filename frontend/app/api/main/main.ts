@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ReportSubmit } from "@/components/main/types";
 
-const baseAPI = "http://localhost:1234/";
+const baseAPI = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:1234/";
 
 export async function get_all_reports(limit = 10): Promise<any> {
   try {

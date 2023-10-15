@@ -5,5 +5,8 @@ find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 se
 echo "Check that we have NEXT_PUBLIC_VAPID_PUBLIC_KEY vars"
 test -n "$NEXT_PUBLIC_VAPID_PUBLIC_KEY"
 find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#PLACEHOLDER_NEXT_PUBLIC_VAPID_PUBLIC_KEY#$NEXT_PUBLIC_VAPID_PUBLIC_KEY#g"
+echo "Check that we have NEXT_PUBLIC_BASE_API vars"
+test -n "$NEXT_PUBLIC_BASE_API"
+find /app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#PLACEHOLDER_NEXT_PUBLIC_BASE_API#$NEXT_PUBLIC_BASE_API#g"
 echo "Starting Nextjs"
 exec "$@"
