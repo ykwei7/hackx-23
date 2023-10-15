@@ -17,7 +17,7 @@ export default function SignInForm() {
       password: password,
     })
       .then((res) => {
-        sessionStorage.setItem("user_id", res.data.user_id);
+        localStorage.setItem("user_id", res.data.user_id);
         router.push("/main");
       })
       .catch((err) => {

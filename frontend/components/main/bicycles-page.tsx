@@ -19,7 +19,7 @@ type Bicycle = {
 };
 
 export function BicyclesPage() {
-  const userId = sessionStorage.getItem("user_id") || "";
+  const userId = localStorage.getItem("user_id") || "";
   const [bicycles, setBicycles] = useState<Bicycle[]>([]);
   const [loading, setLoading] = useState(true);
 

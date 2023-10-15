@@ -92,7 +92,7 @@ export default function MainPage({ searchParams }) {
   }, []);
 
   useEffect(() => {
-    subscribeUserToPush(sessionStorage.getItem("user_id") as string);
+    subscribeUserToPush(localStorage.getItem("user_id") as string);
   }, [notifEnabled]);
 
   const [currView, setView] = useState(searchParams.page || "home");

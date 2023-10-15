@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export const HomePage: React.FC = ({ views, setView }) => {
   const [bikes, setBikes] = useState([]);
   const [reports, setReports] = useState<Report[]>([]);
-  const user_id = sessionStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user_id");
   const [isBikesLoaded, setBikesLoaded] = useState(false);
   const [isReportsLoaded, setReportsLoaded] = useState(false);
   useEffect(() => {

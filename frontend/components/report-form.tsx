@@ -45,7 +45,7 @@ export default function ReportForm({ open, handleClose }) {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    let user_id = sessionStorage.getItem("user_id") || "";
+    let user_id = localStorage.getItem("user_id") || "";
     setUserId(user_id);
     getUserBicycles(user_id)
       .then((res) => {

@@ -32,7 +32,7 @@ export default function AddBicycle({ successCallback }) {
     picture: false,
   });
 
-  const user_id = sessionStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user_id");
 
   function resetForm() {
     setName("");

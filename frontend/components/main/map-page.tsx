@@ -9,7 +9,7 @@ export const MapPage: React.FC = () => {
   const [bikes, setBikes] = useState([]);
   const [currBike, setCurrBike] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const user_id = sessionStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user_id");
   useEffect(() => {
     get_all_bicycles(user_id).then((res) => {
       setBikes(res.bicycles);

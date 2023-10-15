@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/navigation";
 
 export const ProfilePage = () => {
-  const user_id = sessionStorage.getItem("user_id");
+  const user_id = localStorage.getItem("user_id");
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [phoneNum, setPhoneNum] = useState(null);
@@ -21,7 +21,7 @@ export const ProfilePage = () => {
   }
 
   const logout = () => {
-    sessionStorage.removeItem("user_id");
+    localStorage.removeItem("user_id");
     router.push("/");
   };
 
