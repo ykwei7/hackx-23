@@ -22,7 +22,7 @@ from routes.reports import decode_coord
 bp = Blueprint("bicycles", __name__, url_prefix="/bicycles")
 
 
-@bp.route("/", methods=["POST"])
+@bp.route("/", methods=["POST"], strict_slashes=False)
 def add_bicycle():
     form = request.form.to_dict()
     user_id = form.get("user_id")
@@ -82,7 +82,7 @@ def add_bicycle():
     return jsonify({"message": "Bicycle added successfully"}), 201
 
 
-@bp.route("/", methods=["GET"])
+@bp.route("/", methods=["GET"], strict_slashes=False)
 def get_all_bicycles():
     # if limit query param is not present or is of non-int type, default of 10 is used
     num_bikes = request.args.get("limit", default=50, type=int)
