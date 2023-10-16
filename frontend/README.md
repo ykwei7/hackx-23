@@ -14,7 +14,7 @@ Open Powershell:
 az containerapp up `
   --resource-group htx --name gang-of-four-frontend `
   --source . `
-  --env-vars NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="<api-key>"
+  --env-vars NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="<api-key>" NEXT_PUBLIC_VAPID_PUBLIC_KEY="<vapid-public-key>" NEXT_PUBLIC_BASE_API="<backend-api-url>"
 ```
 
 Note: If deployment fails, might need to set `entrypoint.sh` to use `LF` instead of `CRLF`

@@ -25,5 +25,5 @@ Open Powershell:
 az containerapp up `
   --resource-group htx --name gang-of-four-backend `
   --ingress external --target-port 50505 --source . `
-  --env-vars user="<user>" password="<password>" host="<host>" port="<port>" database="<database>"
+  --env-vars user="<user>" password="<password>" host="<host>" port="<port>" database="<database>" sas_url="<sas_url>" container_name="<container_name>" vapid_private_key="<vapid_private_key>"
 ```
