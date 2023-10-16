@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseAPI = "http://localhost:1234/";
+const baseAPI = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:1234/";
 
 export async function GET(request: Request) {
   return new Response("Hello, Next.js!");

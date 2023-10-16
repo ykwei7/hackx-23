@@ -95,7 +95,7 @@ def delete_report(report_id):
     return jsonify({"message": "Report deleted successfully"}), 200
 
 
-@bp.route("/", methods=["GET"])
+@bp.route("/", methods=["GET"], strict_slashes=False)
 def get_all_reports():
     num_reports = request.args.get("limit", default=10, type=int)
     if num_reports <= 0:
