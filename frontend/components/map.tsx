@@ -130,7 +130,9 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
         onLoad={onMapLoad}
       >
         {selectedPlace && <Marker position={searchLngLat} />}
-        {currentLocation && <Marker position={currentLocation} />}
+        {currentLocation && (
+          <Marker position={currentLocation} icon={bikeIcon} />
+        )}
         {bikes.map((bike) => (
           <Marker
             key={`marker-${bike.id}`}
