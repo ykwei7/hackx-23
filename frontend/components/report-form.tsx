@@ -5,14 +5,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import { getUserBicycles } from "@/app/api/bicycles/route";
-import { addReport } from "@/app/api/main/route";
+import { getUserBicycles } from "@/app/api/bicycles/bicycles";
+import { addReport } from "@/app/api/main/main";
 import SuccessDialog from "@/components/ui/success-dialog";
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { ReportSubmit } from "@/components/main/types";
 
 type Bicycle = {
   id: string;
@@ -26,9 +26,19 @@ type Bicycle = {
   user_id: string;
 };
 
-export default function ReportForm({ open, handleClose }) {
-  // const [coordinates, setCoordinates] = useState<String>();
-  // const [location, setLocation] = useState<String>("");
+interface ReportFormProps {
+  open: boolean;
+  handleClose: (reason: string) => void;
+  isReportSubmitSuccess: boolean;
+  setIsReportSubmitSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ReportForm({
+  open,
+  handleClose,
+  isReportSubmitSuccess,
+  setIsReportSubmitSuccess,
+}: ReportFormProps) {
   const [bicycles, setBicycles] = useState<Bicycle[]>([]);
   const [userId, setUserId] = useState<string>("");
   const [bicycleName, setBicycleName] = useState<string>("");
@@ -42,7 +52,6 @@ export default function ReportForm({ open, handleClose }) {
     bicycleName: false,
     description: false,
   });
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     let user_id = localStorage.getItem("user_id") || "";
@@ -99,20 +108,21 @@ export default function ReportForm({ open, handleClose }) {
       return;
     }
 
-    const report = { user_id, bike_id, description, lat, long };
+    const report: ReportSubmit = { user_id, bike_id, description, lat, long };
 
     // Send report to backend
     try {
       addReport(report);
-      setIsSuccess(true);
+      setIsReportSubmitSuccess(true);
     } catch (err) {
       console.error("Error adding report:", err);
     }
 
-    // Success dialog appears for 2 seconds then reset form
+    // Success dialog appears for 2 seconds then close form + reset form
     setTimeout(() => {
+      handleClose("");
       resetForm();
-    }, 2000);
+    }, 2500);
   };
 
   const resetForm = () => {
@@ -139,24 +149,21 @@ export default function ReportForm({ open, handleClose }) {
             margin: "auto",
             borderRadius: "10px",
           },
-        }}
-      >
+        }}>
         <DialogTitle sx={{ marginBottom: "0.5rem" }}>Report Form</DialogTitle>
         <DialogContent className="overflow-hidden">
           <FormControl
             fullWidth
             required
             className="report-field"
-            sx={{ marginTop: "0.5rem" }}
-          >
+            sx={{ marginTop: "0.5rem" }}>
             <InputLabel id="bicycle-name-select-label">Bicycle Name</InputLabel>
             <Select
               labelId="bicycle-name-select-label"
               id="bicycle-name-select"
               value={bicycleName}
               label="Bicycle Name"
-              onChange={(e) => setBicycleName(e.target.value)}
-            >
+              onChange={(e) => setBicycleName(e.target.value)}>
               {bicycles.map((bicycle) => (
                 <MenuItem key={bicycle.id} value={bicycle.name}>
                   {bicycle.name}
@@ -217,19 +224,21 @@ export default function ReportForm({ open, handleClose }) {
         <DialogActions>
           <Button
             onClick={(e) => {
-              handleClose(e, "");
+              handleClose("");
               setError({
                 bicycleName: false,
                 description: false,
               });
-            }}
-          >
+            }}>
             Close
           </Button>
           <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
-        <SuccessDialog isSuccess={isSuccess} setIsSuccess={setIsSuccess} />
       </Dialog>
+      <SuccessDialog
+        isSuccess={isReportSubmitSuccess}
+        setIsSuccess={setIsReportSubmitSuccess}
+      />
     </div>
   );
 }

@@ -15,11 +15,15 @@ function SuccessDialog({ isSuccess, setIsSuccess }: SuccessDialogProps) {
   }, [isSuccess]);
 
   return (
-    <div className={`success-msg ${isSuccess ? "show" : ""}`}>
-      <Alert severity="success">
-        <strong>Submission success!</strong>
-      </Alert>
-    </div>
+    <>
+      {isSuccess && (
+        <div className={`success-msg ${isSuccess ? "show" : ""}`}>
+          <Alert severity="success">
+            <strong>Submission success!</strong>
+          </Alert>
+        </div>
+      )}
+    </>
   );
 }
 

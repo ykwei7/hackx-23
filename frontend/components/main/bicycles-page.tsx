@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "@/app/css/style.css";
-import { getUserBicycles } from "@/app/api/bicycles/route";
+import { getUserBicycles } from "@/app/api/bicycles/bicycles";
 import CircularProgress from "@mui/material/CircularProgress";
 import Bike from "@/components/bike";
 import AddBicycle from "@/components/add-bicycle";
@@ -19,12 +19,15 @@ type Bicycle = {
 };
 
 export function BicyclesPage() {
-  const userId = localStorage.getItem("user_id") || "";
+  var user_id = "";
+  if (typeof window != "undefined") {
+    user_id = localStorage.getItem("user_id") || "";
+  }
   const [bicycles, setBicycles] = useState<Bicycle[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUserBicycles(userId)
+    getUserBicycles(user_id)
       .then((res) => {
         setBicycles(res);
         setLoading(false);
@@ -33,7 +36,7 @@ export function BicyclesPage() {
         console.log(err);
         setLoading(false);
       });
-  }, [userId, loading]);
+  }, [user_id, loading]);
 
   function refreshBikes() {
     setLoading(true);

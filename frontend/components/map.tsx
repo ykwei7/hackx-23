@@ -6,7 +6,7 @@ import {
   Autocomplete,
   Circle,
 } from "@react-google-maps/api";
-// import { getBicycleLocation } from "@/app/api/bicycles/route";
+import { getBicycleLocation } from "@/app/api/bicycles/bicycles";
 
 const libraries = ["places"];
 

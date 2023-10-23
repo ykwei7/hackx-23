@@ -12,7 +12,7 @@ import ImageUploader from "react-images-upload";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import QRScanner from "./qr-scanner";
-import { addUserBicycleWithImage } from "@/app/api/bicycles/route";
+import { addUserBicycleWithImage } from "@/app/api/bicycles/bicycles";
 
 export default function AddBicycle({ successCallback }) {
   const [open, setOpen] = useState(false);
@@ -121,8 +121,7 @@ export default function AddBicycle({ successCallback }) {
             margin: "auto",
             borderRadius: "10px",
           },
-        }}
-      >
+        }}>
         <DialogTitle>Add Bicycle</DialogTitle>
         <DialogContent className="overflow-hidden w-[100%]">
           <div className="w-[100%] mb-1">
@@ -171,12 +170,10 @@ export default function AddBicycle({ successCallback }) {
             className={
               "w-[100%] mb-1 p-1 border rounded flex items-center flex-col " +
               (error.picture ? "border-red-600" : "border-transparent")
-            }
-          >
+            }>
             <label
               htmlFor="file-upload"
-              className="py-2 px-3 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
+              className="py-2 px-3 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
               Select from library
               <input
                 id="file-upload"
@@ -206,8 +203,7 @@ export default function AddBicycle({ successCallback }) {
               aria-label="upload picture"
               component="span"
               onClick={handleScanQR}
-              className="w-[20%] items-center"
-            >
+              className="w-[20%] items-center">
               <PhotoCamera />
             </IconButton>
           </div>

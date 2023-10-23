@@ -6,16 +6,19 @@ import FlagIcon from "@mui/icons-material/Flag";
 import FeedIcon from "@mui/icons-material/Feed";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
-import { get_all_bicycles, get_all_reports } from "@/app/api/main/route";
+import { get_all_bicycles, get_all_reports } from "@/app/api/main/main";
 import { Report } from "@/components/main/types";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export const HomePage: React.FC = ({ views, setView }) => {
+export const HomePage = ({ views, setView }): JSX.Element => {
   const [bikes, setBikes] = useState([]);
   const [reports, setReports] = useState<Report[]>([]);
-  const user_id = localStorage.getItem("user_id");
   const [isBikesLoaded, setBikesLoaded] = useState(false);
   const [isReportsLoaded, setReportsLoaded] = useState(false);
+  var user_id = "";
+  if (typeof window != "undefined") {
+    user_id = localStorage.getItem("user_id") || "";
+  }
   useEffect(() => {
     get_all_reports(1).then((res) => {
       if (res.length) {
@@ -92,8 +95,7 @@ export const HomePage: React.FC = ({ views, setView }) => {
           </div>
           <div
             onClick={() => setView(views.bicycles)}
-            className="banner-box main-banner rounded-md d-flex items-center"
-          >
+            className="banner-box main-banner rounded-md d-flex items-center">
             <div className="banner-title">
               <IconButton>
                 <FavoriteIcon style={{ fontSize: "1.5rem" }} />
@@ -106,8 +108,7 @@ export const HomePage: React.FC = ({ views, setView }) => {
                   key={bike.id}
                   className={`bike-status-container ${
                     bike.is_stolen ? "is_stolen" : "is_safe"
-                  }`}
-                >
+                  }`}>
                   <div className="icon">
                     <PedalBike style={{ fontSize: "2rem" }} />
                   </div>

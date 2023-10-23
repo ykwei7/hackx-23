@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 import Link from "next/link";
-import { signup } from "@/app/api/users/route";
+import { signup } from "@/app/api/users/users";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -39,8 +39,7 @@ export default function SignUpForm() {
           <div className="w-full px-3">
             <label
               className="block text-gray-800 text-sm font-medium mb-1 text-left"
-              htmlFor="name"
-            >
+              htmlFor="name">
               Name <span className="text-red-600">*</span>
             </label>
             <input
@@ -58,8 +57,7 @@ export default function SignUpForm() {
           <div className="w-full px-3">
             <label
               className="block text-gray-800 text-sm font-medium mb-1 text-left"
-              htmlFor="email"
-            >
+              htmlFor="email">
               Email <span className="text-red-600">*</span>
             </label>
             <input
@@ -77,8 +75,7 @@ export default function SignUpForm() {
           <div className="w-full px-3">
             <label
               className="block text-gray-800 text-sm font-medium mb-1 text-left"
-              htmlFor="password"
-            >
+              htmlFor="password">
               Password <span className="text-red-600">*</span>
             </label>
             <input
@@ -96,8 +93,7 @@ export default function SignUpForm() {
           <div className="w-full px-3">
             <button
               className="btn text-white bg-black hover:bg-gray-700 w-full"
-              onClick={handleSignup}
-            >
+              onClick={handleSignup}>
               Sign up
             </button>
           </div>
@@ -106,13 +102,11 @@ export default function SignUpForm() {
       <div className="flex items-center my-5">
         <div
           className="border-t border-gray-300 grow mr-3"
-          aria-hidden="true"
-        ></div>
+          aria-hidden="true"></div>
         <div className="text-gray-600 italic">Or</div>
         <div
           className="border-t border-gray-300 grow ml-3"
-          aria-hidden="true"
-        ></div>
+          aria-hidden="true"></div>
       </div>
       <form>
         <div className="flex flex-wrap -mx-3 mb-2">
@@ -145,8 +139,7 @@ export default function SignUpForm() {
         Already have an account?{" "}
         <Link
           href="/"
-          className="text-blue-600 hover:underline transition duration-150 ease-in-out"
-        >
+          className="text-blue-600 hover:underline transition duration-150 ease-in-out">
           Sign in
         </Link>
       </div>

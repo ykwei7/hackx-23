@@ -1,10 +1,11 @@
 import axios from "axios";
+import { ReportSubmit } from "@/components/main/types";
 
-const baseAPI = "http://localhost:1234/";
+const baseAPI = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:1234/";
 
 export async function get_all_reports(limit = 10): Promise<any> {
   try {
-    const response = await axios.get(`${baseAPI}reports?limit=${limit}`);
+    const response = await axios.get(`${baseAPI}reports/?limit=${limit}`);
     return response.data;
   } catch (error) {
     // Handle error, e.g., log it or return an error message
@@ -26,7 +27,7 @@ export async function get_all_bicycles(user_id: string): Promise<any> {
   }
 }
 
-export async function addReport(report: Report): Promise<any> {
+export async function addReport(report: ReportSubmit): Promise<any> {
   try {
     const response = await axios.post(`${baseAPI}reports/`, report);
     return response.data;

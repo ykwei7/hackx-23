@@ -3,49 +3,51 @@ import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import FeedIcon from "@mui/icons-material/Feed";
 import ReportIcon from "@mui/icons-material/Report";
-import { get_all_reports } from "@/app/api/main/route";
+import { get_all_reports } from "@/app/api/main/main";
 import ReportForm from "@/components/report-form";
 import { Report } from "@/components/main/types";
 
 function ReportPage(): React.FC {
-  const [open, setOpen] = useState<Boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [reports, setReports] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isReportSubmitSuccess, setIsReportSubmitSuccess] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    if (reports.length <= 0) return;
+    setLoading(false);
+  }, [reports]);
 
   useEffect(() => {
     get_all_reports().then((res) => {
       if (res.length) {
         console.log(res.slice(0, 3));
         setReports(res.length >= 3 ? res.slice(0, 3) : [res[0]]);
-      } else {
-        let report = {
-          id: "testing1234354abcd",
-          user_id: "user12345abcd",
-          bike_id: "bike123454abcd",
-          reported_time: "-",
-          description: "Lost at Macritchie Reservoir",
-          lat: 1.341488,
-          long: 103.833959,
-          address: "Lornie Road, Reservoir Rd",
-          status: "ongoing",
-          bike_brand: "Ibis",
-          bike_model: "Ripmo V2 XT",
-          username: "9123 4567",
-        };
-        setReports([...reports, report]);
       }
-      setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    // Get latest report after successful report submission
+    if (!isReportSubmitSuccess) return;
+    console.log("Reloading reports!!");
+    setLoading(true);
+    setReports([]);
+    // Wait 3 seconds after submission to get latest reports
+    setTimeout(() => {
+      get_all_reports().then((res) => {
+        console.log(res);
+        setReports(res.length >= 3 ? res.slice(0, 3) : [res[0]]);
+      });
+    }, 3000);
+  }, [isReportSubmitSuccess]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    reason: string
-  ) => {
+  const handleClose = (reason: string) => {
     if (reason === "backdropClick") {
       return;
     }
@@ -60,7 +62,7 @@ function ReportPage(): React.FC {
         </div>
       ) : (
         <>
-          <div className="circular-progress-container">
+          <div className="live-incident-container">
             <div className="banner-title ml-2">
               <IconButton>
                 <FeedIcon style={{ fontSize: "2rem" }} />
@@ -75,8 +77,7 @@ function ReportPage(): React.FC {
               return (
                 <div
                   key={report.id}
-                  className="banner-box side-banner rounded-md gap-1 mt-4 mx-1"
-                >
+                  className="banner-box side-banner rounded-md gap-1 mt-4 mx-1 mb-2">
                   <p className="incident-container">
                     <span className="incident-title">Bike:</span>
                     <span className="incident-desc">
@@ -114,7 +115,12 @@ function ReportPage(): React.FC {
           <ReportIcon style={{ fontSize: "3rem", color: "red" }} />
           <p>Report</p>
         </IconButton>
-        <ReportForm open={open} handleClose={handleClose} />
+        <ReportForm
+          open={open}
+          handleClose={handleClose}
+          isReportSubmitSuccess={isReportSubmitSuccess}
+          setIsReportSubmitSuccess={setIsReportSubmitSuccess}
+        />
       </div>
     </div>
   );
