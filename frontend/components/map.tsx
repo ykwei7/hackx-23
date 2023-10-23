@@ -14,6 +14,7 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [searchLngLat, setSearchLngLat] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [bikeTrackLocation, setBikeTrackLocation] = useState(null);
   const autocompleteRef = useRef(null);
 
   // laod script for google map
@@ -40,7 +41,7 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
     if (!currBike || currLat == "-" || currLong == "-") {
       return;
     }
-    setCurrentLocation({
+    setBikeTrackLocation({
       lat: +currLat,
       lng: +currLong,
     });
@@ -130,8 +131,9 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
         onLoad={onMapLoad}
       >
         {selectedPlace && <Marker position={searchLngLat} />}
-        {currentLocation && (
-          <Marker position={currentLocation} icon={bikeIcon} />
+        {currentLocation && <Marker position={currentLocation} />}
+        {bikeTrackLocation && (
+          <Marker position={bikeTrackLocation} icon={bikeIcon} />
         )}
         {bikes.map((bike) => (
           <Marker
