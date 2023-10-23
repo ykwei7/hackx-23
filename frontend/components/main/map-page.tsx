@@ -15,16 +15,12 @@ export const MapPage: React.FC = () => {
   const [currLat, setCurrLat] = useState(null);
   const [currLong, setCurrLong] = useState(null);
   const [currAddress, setCurrAddress] = useState(null);
-<<<<<<< HEAD
   const [isCoordLoading, setCoordLoading] = useState(false);
-  const user_id = localStorage.getItem("user_id");
+  let user_id = localStorage.getItem("user_id");
 
-=======
-  var user_id = "";
   if (typeof window != "undefined") {
     user_id = localStorage.getItem("user_id") || "";
   }
->>>>>>> b5b0ebeb55d6e30a09f7d24461b771059e8265e7
   useEffect(() => {
     get_all_bicycles(user_id).then((res) => {
       setBikes(res.bicycles);
@@ -113,7 +109,8 @@ export const MapPage: React.FC = () => {
               className={`bike-status-container ${
                 bike.is_stolen ? "is_stolen" : "is_safe"
               }`}
-              onClick={() => setCurrBike(bike)}>
+              onClick={() => setCurrBike(bike)}
+            >
               <div className="icon">
                 <PedalBike style={{ fontSize: "2rem" }} />
               </div>
