@@ -124,8 +124,8 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
     >
       {/* map component  */}
       <GoogleMap
-        zoom={currentLocation || selectedPlace ? 18 : 12}
-        center={currentLocation || searchLngLat}
+        zoom={bikeTrackLocation || currentLocation || selectedPlace ? 18 : 12}
+        center={bikeTrackLocation || currentLocation || searchLngLat}
         mapContainerClassName="map"
         mapContainerStyle={{ width: "80%", height: "20rem", margin: "auto" }}
         onLoad={onMapLoad}
