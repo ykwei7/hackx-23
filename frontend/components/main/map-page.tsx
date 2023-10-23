@@ -15,6 +15,7 @@ export const MapPage: React.FC = () => {
   const [currLat, setCurrLat] = useState(null);
   const [currLong, setCurrLong] = useState(null);
   const [currAddress, setCurrAddress] = useState(null);
+  const [isCoordLoading, setCoordLoading] = useState(false);
   const user_id = localStorage.getItem("user_id");
 
   useEffect(() => {
@@ -34,17 +35,26 @@ export const MapPage: React.FC = () => {
 
   let intervalId;
   useEffect(() => {
+    setCoordLoading(true);
     if (currBike) {
+      setCurrLat(null);
+      setCurrLong(null);
+      setCurrAddress(null);
       intervalId = setInterval(async () => {
         const data = await getBicycleLocation(currBike.id);
         if (data.lat === null || data.long === null) {
+          setCurrLat(null);
+          setCurrLong(null);
+          setCurrAddress("-");
+          setCoordLoading(false);
           return;
         }
-
         setCurrLat(parseFloat(data.lat));
         setCurrLong(parseFloat(data.long));
+        setCoordLoading(false);
+
         setCurrAddress(data.location);
-      }, 1000);
+      }, 5000);
     }
 
     return () => {
@@ -63,7 +73,7 @@ export const MapPage: React.FC = () => {
         />
 
         {currBike && (
-          <div className="flex justify-center items-center flex-col my-4 text-center">
+          <div className="flex items-center flex-col my-4 text-center">
             <div>
               <span className="font-medium">Tracking:</span> {currBike.name}
             </div>
@@ -77,9 +87,13 @@ export const MapPage: React.FC = () => {
             </div>
             <div>
               <span className="font-medium">Live Coords:</span>{" "}
-              <span className="blinking-text">
-                {currLat && currLong ? `(${currLat}, ${currLong})` : "..."}
-              </span>
+              {!isCoordLoading && currLat && currLong && (
+                <span className={`blinking-text`}>
+                  {`(${currLat}, ${currLong})`}
+                </span>
+              )}
+              {!isCoordLoading && !currLat && !currLong && <span>(-, -)</span>}
+              {isCoordLoading && <span className={`blinking-text`}>...</span>}
             </div>
           </div>
         )}

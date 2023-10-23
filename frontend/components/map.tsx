@@ -6,7 +6,7 @@ import {
   Autocomplete,
   Circle,
 } from "@react-google-maps/api";
-import { getBicycleLocation } from "@/app/api/bicycles/route";
+// import { getBicycleLocation } from "@/app/api/bicycles/route";
 
 const libraries = ["places"];
 
@@ -37,10 +37,12 @@ const Map = ({ currBike, bikes, currLat, currLong }) => {
   // }, [currBike]);
 
   useEffect(() => {
-    if (!currBike) return;
+    if (!currBike || currLat == "-" || currLong == "-") {
+      return;
+    }
     setCurrentLocation({
-      lat: currLat,
-      lng: currLong,
+      lat: +currLat,
+      lng: +currLong,
     });
   }, [currLat, currLong]);
 
